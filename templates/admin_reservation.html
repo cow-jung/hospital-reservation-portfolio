@@ -1,59 +1,8 @@
-{% extends "admin_base.html" %}
-{% block title %}예약관리{% endblock %}
-
-
+{% extends "admin_base.html" %}{% block title %}예약관리{% endblock %}
 {% block content %}
-<h2>예약관리</h2>
-<p>상태를 변경한 뒤 [변경] 버튼을 누르면 저장됩니다.</p>
-
-<table border="1">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>예약자</th>
-            <th>진료과</th>
-            <th>담당의</th>
-            <th>예약일</th>
-            <th>예약시간</th>
-            <th>메모</th>
-            <th>상태</th>
-            <th>관리</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for r in reservations %}
-        <tr>
-            <td>{{ r.reservation_id }}</td>
-            <td>{{ r.user_name }}</td>
-            <td>{{ r.dept_name }}</td>
-            <td>{{ r.doctor_name }}</td>
-            <td>{{ r.reservation_date }}</td>
-            <td>{{ r.reservation_time }}</td>
-            <td>{{ r.memo or '' }}</td>
-            <td>
-                <select name="status" form="reservation-form-{{ r.reservation_id }}">
-                    <option value="대기" {% if r.status == '대기' %}selected{% endif %}>대기</option>
-                    <option value="확정" {% if r.status == '확정' %}selected{% endif %}>확정</option>
-                    <option value="취소" {% if r.status == '취소' %}selected{% endif %}>취소</option>
-                </select>
-            </td>
-            <td>
-                <button type="submit" name="action" value="update_status" form="reservation-form-{{ r.reservation_id }}">변경</button>
-                <button type="submit" name="action" value="delete" form="reservation-form-{{ r.reservation_id }}"
-                        onclick="return confirm('이 예약을 삭제하시겠습니까?');">삭제</button>
-            </td>
-        </tr>
-    {% else %}
-        <tr>
-            <td colspan="9">등록된 예약이 없습니다.</td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
-
-{% for r in reservations %}
-<form id="reservation-form-{{ r.reservation_id }}" method="post" action="{{ url_for('admin.admin_reservation') }}">
-    <input type="hidden" name="reservation_id" value="{{ r.reservation_id }}">
-</form>
-{% endfor %}
-{% endblock %}
+<div class="admin-list-header"><h2>예약관리</h2><p>예약자·진료과·의료진을 검색하고 예약 상태별로 빠르게 조회할 수 있습니다.</p></div>
+<div class="admin-list-toolbar reservation-toolbar"><form method="get"><input type="text" name="q" value="{{ keyword or '' }}" placeholder="예약자 · 진료과 · 의료진 · 메모 검색"><select name="status"><option value="">전체 상태</option><option value="대기" {% if status=='대기' %}selected{% endif %}>대기</option><option value="확정" {% if status=='확정' %}selected{% endif %}>확정</option><option value="취소" {% if status=='취소' %}selected{% endif %}>취소</option></select><button type="submit">검색</button>{% if keyword or status %}<a class="admin-reset-link" href="{{ url_for('admin.admin_reservation') }}">초기화</a>{% endif %}</form><span class="admin-list-count">총 {{ reservations|length }}건</span></div>
+<table><thead><tr><th class="admin-index-cell">번호</th><th>예약자</th><th>진료과</th><th>담당의</th><th>예약일</th><th>예약시간</th><th>메모</th><th>상태</th><th>관리</th></tr></thead><tbody>
+{% for r in reservations %}<tr><td class="admin-index-cell">{{ loop.index }}</td><td>{{ r.user_name }}</td><td>{{ r.dept_name }}</td><td>{{ r.doctor_name }}</td><td>{{ r.reservation_date }}</td><td>{{ r.reservation_time }}</td><td>{{ r.memo or '' }}</td><td><select name="status" form="reservation-form-{{ r.reservation_id }}"><option value="대기" {% if r.status=='대기' %}selected{% endif %}>대기</option><option value="확정" {% if r.status=='확정' %}selected{% endif %}>확정</option><option value="취소" {% if r.status=='취소' %}selected{% endif %}>취소</option></select></td><td><button type="submit" name="action" value="update_status" form="reservation-form-{{ r.reservation_id }}">변경</button> <button type="submit" name="action" value="delete" form="reservation-form-{{ r.reservation_id }}" onclick="return confirm('이 예약을 삭제하시겠습니까?');">삭제</button></td></tr>
+{% else %}<tr><td colspan="9" class="admin-empty-cell">조건에 맞는 예약이 없습니다.</td></tr>{% endfor %}</tbody></table>
+{% for r in reservations %}<form id="reservation-form-{{ r.reservation_id }}" method="post"><input type="hidden" name="reservation_id" value="{{ r.reservation_id }}"></form>{% endfor %}{% endblock %}

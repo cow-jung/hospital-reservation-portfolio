@@ -1,81 +1,37 @@
 {% extends "admin_base.html" %}
-{% block title %}관리자{% endblock %}
-
-
+{% block title %}관리자 대시보드{% endblock %}
 {% block content %}
-<h2>관리자 대시보드</h2>
+<section class="admin-dashboard">
+    <div class="admin-page-heading">
+        <div>
+            <span class="admin-eyebrow">ADMIN DASHBOARD</span>
+            <h2>관리자 대시보드</h2>
+            <p>병원 예약 서비스의 주요 현황과 관리 기능을 한눈에 확인하세요.</p>
+        </div>
+    </div>
 
-<!-- ===================================================== -->
-<!-- 요약 현황 -->
-<!-- ===================================================== -->
-<h3>요약 현황</h3>
+    <section class="dashboard-section">
+        <div class="section-heading"><h3>요약 현황</h3><span>실시간 데이터 기준</span></div>
+        <div class="stat-grid">
+            <article class="stat-card"><span class="stat-label">전체 회원</span><strong>{{ user_count }}</strong><small>명</small></article>
+            <article class="stat-card"><span class="stat-label">전체 예약</span><strong>{{ reservation_count }}</strong><small>건</small></article>
+            <article class="stat-card stat-card-highlight"><span class="stat-label">대기 예약</span><strong>{{ pending_reservation_count }}</strong><small>건</small></article>
+            <article class="stat-card"><span class="stat-label">전체 게시글</span><strong>{{ board_count }}</strong><small>건</small></article>
+            <article class="stat-card"><span class="stat-label">등록 공지</span><strong>{{ notice_count }}</strong><small>건</small></article>
+        </div>
+    </section>
 
-<table border="1">
-    <thead>
-        <tr>
-            <th>전체 회원 수</th>
-            <th>전체 예약 건수</th>
-            <th>대기중 예약</th>
-            <th>전체 게시글 수</th>
-            <th>등록된 공지 수</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr style="text-align:center;">
-            <td>{{ user_count }}명</td>
-            <td>{{ reservation_count }}건</td>
-            <td>{{ pending_reservation_count }}건</td>
-            <td>{{ board_count }}건</td>
-            <td>{{ notice_count }}건</td>
-        </tr>
-    </tbody>
-</table>
-
-<hr>
-
-<!-- ===================================================== -->
-<!-- 관리 메뉴 -->
-<!-- ===================================================== -->
-<h3>관리 메뉴</h3>
-
-<table border="1">
-    <tbody>
-        <tr>
-            <td style="padding:12px;">
-                <a href="{{ url_for('admin.admin_department') }}">진료과 관리</a>
-                <p>진료과 등록 / 수정 / 삭제</p>
-            </td>
-            <td style="padding:12px;">
-                <a href="{{ url_for('admin.admin_doctor') }}">의료진 관리</a>
-                <p>의료진 등록 / 수정 / 삭제</p>
-            </td>
-        </tr>
-        <tr>
-            <td style="padding:12px;">
-                <a href="{{ url_for('admin.admin_user') }}">회원관리</a>
-                <p>회원 정보 수정 / 삭제(탈퇴 처리)</p>
-            </td>
-            <td style="padding:12px;">
-                <a href="{{ url_for('admin.admin_reservation') }}">예약관리</a>
-                <p>예약 상태 변경(확정/취소) / 삭제</p>
-            </td>
-        </tr>
-        <tr>
-            <td style="padding:12px;">
-                <a href="{{ url_for('admin.admin_board') }}">게시판관리</a>
-                <p>게시글 확인 / 삭제</p>
-            </td>
-            <td style="padding:12px;">
-                <a href="{{ url_for('admin.admin_notice') }}">공지사항관리</a>
-                <p>공지 등록 / 수정 / 삭제</p>
-            </td>
-        </tr>
-        <tr>
-            <td style="padding:12px;" colspan="2">
-                <a href="{{ url_for('admin.admin_security') }}">보안관제</a>
-                <p>IP/CIDR 차단 등록, 로그인 기록 확인</p>
-            </td>
-        </tr>
-    </tbody>
-</table>
+    <section class="dashboard-section">
+        <div class="section-heading"><h3>관리 메뉴</h3><span>서비스 운영 기능</span></div>
+        <div class="management-grid">
+            <a class="management-card" href="{{ url_for('admin.admin_department') }}"><span class="management-icon">01</span><div><strong>진료과 관리</strong><p>진료과 등록 · 수정 · 삭제</p></div><span class="card-arrow">→</span></a>
+            <a class="management-card" href="{{ url_for('admin.admin_doctor') }}"><span class="management-icon">02</span><div><strong>의료진 관리</strong><p>의료진 등록 · 수정 · 삭제</p></div><span class="card-arrow">→</span></a>
+            <a class="management-card" href="{{ url_for('admin.admin_user') }}"><span class="management-icon">03</span><div><strong>회원 관리</strong><p>회원 정보 조회 · 수정 · 탈퇴 처리</p></div><span class="card-arrow">→</span></a>
+            <a class="management-card" href="{{ url_for('admin.admin_reservation') }}"><span class="management-icon">04</span><div><strong>예약 관리</strong><p>예약 상태 변경 · 취소 · 삭제</p></div><span class="card-arrow">→</span></a>
+            <a class="management-card" href="{{ url_for('admin.admin_board') }}"><span class="management-icon">05</span><div><strong>게시판 관리</strong><p>문의 게시글 확인 · 삭제</p></div><span class="card-arrow">→</span></a>
+            <a class="management-card" href="{{ url_for('admin.admin_notice') }}"><span class="management-icon">06</span><div><strong>공지사항 관리</strong><p>공지 등록 · 수정 · 삭제</p></div><span class="card-arrow">→</span></a>
+            <a class="management-card security-card" href="{{ url_for('admin.admin_security') }}"><span class="management-icon">07</span><div><strong>보안 관리</strong><p>IP/CIDR 차단 등록 · 로그인 기록 확인</p></div><span class="card-arrow">→</span></a>
+        </div>
+    </section>
+</section>
 {% endblock %}

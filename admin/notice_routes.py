@@ -19,12 +19,24 @@ from admin import admin_bp
 @admin_required
 def admin_notice():
     """공지사항 목록 전용 페이지. 제목을 클릭하면 상세 페이지로 이동합니다."""
+    keyword = request.args.get("q", "").strip()
+    notice_type = request.args.get("type", "").strip()
+    where, params = [], []
+    if keyword:
+        like = f"%{keyword}%"
+        where.append("(title LIKE %s OR content LIKE %s)")
+        params.extend([like, like])
+    if notice_type in ("일반", "긴급"):
+        where.append("notice_type=%s")
+        params.append(notice_type)
+    where_sql = (" WHERE " + " AND ".join(where)) if where else ""
+
     conn = get_db_connection()
     with conn.cursor() as cur:
-        cur.execute("SELECT * FROM notice ORDER BY created_at DESC")
+        cur.execute(f"SELECT * FROM notice{where_sql} ORDER BY created_at DESC", params)
         notices = cur.fetchall()
     conn.close()
-    return render_template("admin_notice.html", notices=notices)
+    return render_template("admin_notice.html", notices=notices, keyword=keyword, notice_type=notice_type)
 
 
 @admin_bp.route("/admin/notice/create", methods=["GET", "POST"])

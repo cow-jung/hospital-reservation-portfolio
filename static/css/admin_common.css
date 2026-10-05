@@ -687,3 +687,202 @@ main table td a {
 main table td a:hover {
     text-decoration: underline;
 }
+
+
+/* 사용자 화면과 동일한 공통 디자인 시스템 */
+body { background: var(--background); color: var(--text); }
+.admin-label {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 4px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    color: var(--primary);
+    background: var(--primary-soft);
+    font-size: 11px;
+    font-weight: 800;
+    vertical-align: middle;
+}
+.admin-main {
+    width: min(1100px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 42px 0 70px;
+}
+.admin-main > * { width: 100%; }
+.admin-main h2 {
+    margin: 0 0 24px;
+    padding-bottom: 14px;
+    color: var(--text);
+    font-size: 28px;
+    border-bottom: 1px solid var(--line);
+}
+.admin-main h3 { color: var(--text); }
+.admin-main table {
+    overflow: hidden;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px rgba(15,23,42,.03);
+}
+.admin-main table th {
+    color: #475569;
+    background: #f8fafc;
+}
+.admin-main table th,
+.admin-main table td { border-color: var(--line) !important; padding: 12px 14px; }
+.admin-main table tr:nth-child(even) td { background: #fbfdff; }
+.admin-main table tr:hover td { background: var(--primary-soft); }
+.admin-main table td a,
+.dept-name-link,
+.notice-title-link { color: var(--primary); }
+.admin-main > form,
+.dept-detail-card,
+.notice-detail-card {
+    background: var(--surface);
+    border-color: var(--line);
+    border-radius: 14px;
+    box-shadow: 0 3px 12px rgba(15,23,42,.03);
+}
+.admin-main input[type="text"],
+.admin-main input[type="email"],
+.admin-main input[type="password"],
+.admin-main input[type="date"],
+.admin-main input[type="time"],
+.admin-main select,
+.admin-main textarea {
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    padding: 9px 11px;
+}
+.admin-main input:focus,
+.admin-main select:focus,
+.admin-main textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37,99,235,.10);
+}
+.admin-main button,
+.dept-add-btn,
+.notice-add-btn {
+    border-color: var(--primary);
+    border-radius: 9px;
+    background: var(--primary);
+}
+.admin-main button:hover,
+.dept-add-btn:hover,
+.notice-add-btn:hover { background: var(--primary-dark); }
+.dept-page-header,
+.notice-page-header { border-bottom-color: var(--line); }
+.dept-page-title,
+.notice-page-title { color: var(--text); font-size: 28px; }
+.dept-btn-outline,
+.notice-btn-outline {
+    color: var(--primary);
+    background: white;
+    border-color: var(--primary);
+}
+.dept-btn-outline:hover,
+.notice-btn-outline:hover { background: var(--primary-soft); }
+@media (max-width: 900px) {
+    .admin-main { width: min(100% - 28px, 1100px); padding-top: 28px; }
+}
+
+
+/* 관리자 대시보드 */
+.admin-dashboard { padding-bottom: 10px; }
+.admin-page-heading { margin-bottom: 36px; }
+.admin-page-heading h2 { margin: 5px 0 8px; padding: 0; border: 0; font-size: 32px; letter-spacing: -1px; }
+.admin-page-heading p { margin: 0; color: var(--muted); font-size: 15px; }
+.admin-eyebrow { color: var(--primary); font-size: 11px; font-weight: 800; letter-spacing: 1.4px; }
+.dashboard-section { margin-top: 34px; }
+.section-heading { display: flex; align-items: end; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.section-heading h3 { margin: 0; color: var(--text); font-size: 18px; }
+.section-heading span { color: #94a3b8; font-size: 12px; }
+.stat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+.stat-card {
+    position: relative; min-height: 132px; padding: 22px; background: white;
+    border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 4px 16px rgba(15,23,42,.04);
+}
+.stat-card-highlight { border-color: #bfdbfe; background: linear-gradient(145deg,#eff6ff,#fff); }
+.stat-label { display: block; margin-bottom: 18px; color: var(--muted); font-size: 13px; font-weight: 700; }
+.stat-card strong { font-size: 32px; line-height: 1; letter-spacing: -1px; }
+.stat-card small { margin-left: 4px; color: var(--muted); font-size: 13px; }
+.management-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.management-card {
+    min-height: 112px; padding: 20px; display: grid; grid-template-columns: 42px 1fr auto;
+    align-items: center; gap: 15px; background: white; border: 1px solid var(--line);
+    border-radius: 16px; box-shadow: 0 3px 12px rgba(15,23,42,.03); transition: .18s ease;
+}
+.management-card:hover { border-color: #bfdbfe; box-shadow: var(--shadow); transform: translateY(-2px); }
+.management-icon {
+    width: 42px; height: 42px; display: grid; place-items: center; border-radius: 12px;
+    color: var(--primary); background: var(--primary-soft); font-size: 12px; font-weight: 800;
+}
+.management-card strong { display: block; margin-bottom: 5px; color: var(--text); font-size: 16px; }
+.management-card p { margin: 0; color: var(--muted); font-size: 13px; }
+.card-arrow { color: #94a3b8; font-size: 20px; transition: .18s ease; }
+.management-card:hover .card-arrow { color: var(--primary); transform: translateX(3px); }
+.security-card { grid-column: 1 / -1; }
+@media (max-width: 900px) { .stat-grid { grid-template-columns: repeat(2,1fr); } .management-grid { grid-template-columns: 1fr; } .security-card { grid-column: auto; } }
+@media (max-width: 560px) { .stat-grid { grid-template-columns: 1fr; } .section-heading { align-items: flex-start; flex-direction: column; } }
+
+
+/* 관리자 목록 페이지 공통 툴바 */
+.admin-list-header { margin-bottom: 20px; }
+.admin-list-header h2 { margin-bottom: 8px; }
+.admin-list-header p { margin: 0; color: var(--muted); }
+.admin-list-toolbar {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    margin: 18px 0 22px; padding: 14px 16px; background: white;
+    border: 1px solid var(--line); border-radius: 14px;
+}
+.admin-list-toolbar form { margin: 0; padding: 0; max-width: none; background: transparent; border: 0; display: flex; align-items: center; gap: 8px; }
+.admin-list-toolbar input[type="text"] { width: 300px; margin: 0; }
+.admin-list-toolbar button { white-space: nowrap; }
+.admin-create-btn {
+    display: inline-flex; align-items: center; justify-content: center; padding: 10px 16px;
+    border-radius: 9px; color: white; background: var(--primary); font-size: 13px; font-weight: 700; white-space: nowrap;
+}
+.admin-create-btn:hover { background: var(--primary-dark); }
+.admin-reset-link { color: var(--primary); font-size: 13px; font-weight: 700; white-space: nowrap; }
+.admin-index-cell { width: 70px; text-align: center !important; color: var(--muted); font-weight: 700; }
+@media (max-width: 700px) {
+    .admin-list-toolbar { align-items: stretch; flex-direction: column; }
+    .admin-list-toolbar form { width: 100%; }
+    .admin-list-toolbar input[type="text"] { width: 100%; }
+}
+
+
+/* 게시판 관리 */
+.admin-list-count { color: var(--muted); font-size: 13px; font-weight: 700; white-space: nowrap; }
+.admin-search-result { margin: -8px 0 14px !important; color: var(--muted) !important; }
+.board-admin-table .board-action-cell { padding: 8px 12px !important; text-align: center; }
+.board-delete-form {
+    display: flex !important; align-items: center; justify-content: center;
+    margin: 0 !important; padding: 0 !important; background: transparent !important;
+    border: 0 !important; box-shadow: none !important; max-width: none !important;
+}
+.admin-main .admin-delete-btn {
+    min-width: 56px; padding: 8px 13px; margin: 0;
+    border: 1px solid #fecaca; border-radius: 8px;
+    color: #b91c1c; background: #fff;
+    font-size: 12px; font-weight: 700; line-height: 1.2;
+}
+.admin-main .admin-delete-btn:hover { color: #fff; background: #dc2626; border-color: #dc2626; }
+.admin-empty-cell { padding: 30px !important; text-align: center !important; color: var(--muted); }
+
+.admin-list-toolbar select { min-width: 125px; margin: 0; }
+.toolbar-actions { display:flex; align-items:center; gap:12px; }
+.reservation-toolbar form { flex:1; }
+@media(max-width:700px){.toolbar-actions{width:100%;justify-content:space-between}.admin-list-toolbar select{min-width:110px}}
+
+.security-section { margin:0 0 34px; padding:24px; background:#fff; border:1px solid var(--line); border-radius:16px; box-shadow:0 3px 12px rgba(15,23,42,.03); }
+.security-section h3 { margin-top:0; }
+.security-add-form { display:grid !important; grid-template-columns:1.2fr 1.4fr 1fr auto; gap:12px; align-items:end; max-width:none !important; margin:0 !important; padding:0 !important; border:0 !important; box-shadow:none !important; }
+.security-add-form label { display:block; margin-bottom:6px; font-size:12px; font-weight:700; color:var(--muted); }
+.security-add-form input,.security-add-form select { margin:0 !important; }
+.security-actions { display:flex; gap:6px; align-items:center; }
+.security-actions form,.security-clear-form { margin:0 !important; padding:0 !important; border:0 !important; background:transparent !important; box-shadow:none !important; }
+.security-status { display:inline-flex; padding:3px 8px; border-radius:999px; font-size:11px; font-weight:800; }
+.security-status.active { color:#166534; background:#dcfce7; }
+.security-status.inactive { color:#475569; background:#e2e8f0; }
+.security-status.failed { color:#b91c1c; background:#fee2e2; }
+@media(max-width:900px){.security-add-form{grid-template-columns:1fr 1fr}.security-section{overflow-x:auto}}

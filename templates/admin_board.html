@@ -1,46 +1,39 @@
 {% extends "admin_base.html" %}
 {% block title %}게시판관리{% endblock %}
-
-
 {% block content %}
-<h2>게시판관리</h2>
-<p>부적절한 게시글을 확인하고 삭제할 수 있습니다. 댓글은 게시글 상세보기에서 확인하세요.</p>
+<div class="admin-list-header">
+    <h2>게시판관리</h2>
+    <p>게시글을 검색하고 내용을 확인하거나 삭제할 수 있습니다. 댓글은 게시글 상세보기에서 확인하세요.</p>
+</div>
 
-<table border="1">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>제목</th>
-            <th>작성자</th>
-            <th>조회수</th>
-            <th>작성일</th>
-            <th>관리</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for post in posts %}
-        <tr>
-            <td>{{ post.board_id }}</td>
-            <td>
-                <a href="{{ url_for('board.board_view', board_id=post.board_id) }}">{{ post.title }}</a>
-            </td>
-            <td>{{ post.name }}</td>
-            <td>{{ post.view_count }}</td>
-            <td>{{ post.created_at }}</td>
-            <td>
-                <form method="post" action="{{ url_for('admin.admin_board') }}" style="display:inline;"
-                      onsubmit="return confirm('이 게시글을 삭제하시겠습니까?');">
-                    <input type="hidden" name="action" value="delete_post">
-                    <input type="hidden" name="board_id" value="{{ post.board_id }}">
-                    <button type="submit">삭제</button>
-                </form>
-            </td>
-        </tr>
-    {% else %}
-        <tr>
-            <td colspan="6">등록된 게시글이 없습니다.</td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+<div class="admin-list-toolbar board-toolbar">
+    <form method="get" action="{{ url_for('admin.admin_board') }}">
+        <input type="text" name="q" value="{{ keyword or '' }}" placeholder="제목 · 내용 · 작성자 검색">
+        <button type="submit">검색</button>
+        {% if keyword %}<a class="admin-reset-link" href="{{ url_for('admin.admin_board') }}">전체보기</a>{% endif %}
+    </form>
+    <span class="admin-list-count">총 {{ posts|length }}건</span>
+</div>
+
+{% if keyword %}<p class="admin-search-result">"{{ keyword }}" 검색 결과: {{ posts|length }}건</p>{% endif %}
+
+<table class="board-admin-table">
+<thead><tr><th class="admin-index-cell">번호</th><th>제목</th><th style="width:110px;">작성자</th><th style="width:80px;">조회수</th><th style="width:180px;">작성일</th><th style="width:90px;">관리</th></tr></thead>
+<tbody>
+{% for post in posts %}
+<tr>
+<td class="admin-index-cell">{{ loop.index }}</td>
+<td><a href="{{ url_for('board.board_view', board_id=post.board_id) }}">{{ post.title }}</a></td>
+<td>{{ post.name }}</td><td>{{ post.view_count }}</td><td>{{ post.created_at }}</td>
+<td class="board-action-cell">
+<form class="board-delete-form" method="post" action="{{ url_for('admin.admin_board') }}" onsubmit="return confirm('이 게시글을 삭제하시겠습니까?');">
+<input type="hidden" name="action" value="delete_post"><input type="hidden" name="board_id" value="{{ post.board_id }}">
+<button class="admin-delete-btn" type="submit">삭제</button>
+</form>
+</td>
+</tr>
+{% else %}
+<tr><td colspan="6" class="admin-empty-cell">{% if keyword %}"{{ keyword }}"에 해당하는 게시글이 없습니다.{% else %}등록된 게시글이 없습니다.{% endif %}</td></tr>
+{% endfor %}
+</tbody></table>
 {% endblock %}

@@ -1,55 +1,8 @@
-{% extends "admin_base.html" %}
-{% block title %}회원관리{% endblock %}
-
-
+{% extends "admin_base.html" %}{% block title %}회원관리{% endblock %}
 {% block content %}
-<h2>회원관리</h2>
-<p>내용을 수정한 뒤 [수정] 버튼을 누르면 저장됩니다. 신규 회원은 회원가입 화면에서 직접 가입합니다.</p>
-
-<table border="1">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>아이디</th>
-            <th>이름</th>
-            <th>연락처</th>
-            <th>이메일</th>
-            <th>가입일</th>
-            <th>관리</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for user in users %}
-        <tr>
-            <td>{{ user.user_id }}</td>
-            <td>{{ user.username }}</td>
-            <td>
-                <input type="text" name="name" form="user-form-{{ user.user_id }}" value="{{ user.name }}" required>
-            </td>
-            <td>
-                <input type="text" name="phone" form="user-form-{{ user.user_id }}" value="{{ user.phone or '' }}">
-            </td>
-            <td>
-                <input type="email" name="email" form="user-form-{{ user.user_id }}" value="{{ user.email or '' }}">
-            </td>
-            <td>{{ user.created_at }}</td>
-            <td>
-                <button type="submit" name="action" value="update" form="user-form-{{ user.user_id }}">수정</button>
-                <button type="submit" name="action" value="delete" form="user-form-{{ user.user_id }}"
-                        onclick="return confirm('이 회원을 삭제(탈퇴 처리)하시겠습니까?');">삭제</button>
-            </td>
-        </tr>
-    {% else %}
-        <tr>
-            <td colspan="7">가입된 회원이 없습니다.</td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
-
-{% for user in users %}
-<form id="user-form-{{ user.user_id }}" method="post" action="{{ url_for('admin.admin_user') }}">
-    <input type="hidden" name="user_id" value="{{ user.user_id }}">
-</form>
-{% endfor %}
-{% endblock %}
+<div class="admin-list-header"><h2>회원관리</h2><p>회원 정보를 검색하고 수정하거나 탈퇴 처리할 수 있습니다.</p></div>
+<div class="admin-list-toolbar"><form method="get"><input type="text" name="q" value="{{ keyword or '' }}" placeholder="아이디 · 이름 · 연락처 · 이메일 검색"><button type="submit">검색</button>{% if keyword %}<a class="admin-reset-link" href="{{ url_for('admin.admin_user') }}">전체보기</a>{% endif %}</form><span class="admin-list-count">총 {{ users|length }}명</span></div>
+<table><thead><tr><th class="admin-index-cell">번호</th><th>아이디</th><th>이름</th><th>연락처</th><th>이메일</th><th>가입일</th><th>관리</th></tr></thead><tbody>
+{% for user in users %}<tr><td class="admin-index-cell">{{ loop.index }}</td><td>{{ user.username }}</td><td><input type="text" name="name" form="user-form-{{ user.user_id }}" value="{{ user.name }}" required></td><td><input type="text" name="phone" form="user-form-{{ user.user_id }}" value="{{ user.phone or '' }}"></td><td><input type="email" name="email" form="user-form-{{ user.user_id }}" value="{{ user.email or '' }}"></td><td>{{ user.created_at }}</td><td><button type="submit" name="action" value="update" form="user-form-{{ user.user_id }}">수정</button> <button type="submit" name="action" value="delete" form="user-form-{{ user.user_id }}" onclick="return confirm('이 회원을 삭제(탈퇴 처리)하시겠습니까?');">삭제</button></td></tr>
+{% else %}<tr><td colspan="7" class="admin-empty-cell">{% if keyword %}검색 결과가 없습니다.{% else %}가입된 회원이 없습니다.{% endif %}</td></tr>{% endfor %}</tbody></table>
+{% for user in users %}<form id="user-form-{{ user.user_id }}" method="post"><input type="hidden" name="user_id" value="{{ user.user_id }}"></form>{% endfor %}{% endblock %}

@@ -2,45 +2,51 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}관리자{% endblock %} - 병원예약시스템</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_common.css') }}">
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
-
-    <header>
-        <h1><a href="{{ url_for('admin.admin') }}">병원예약시스템 - 관리자</a></h1>
-        <nav>
-            <a href="{{ url_for('admin.admin') }}">대시보드</a>
-            <a href="{{ url_for('admin.admin_department') }}">진료과관리</a>
-            <a href="{{ url_for('admin.admin_doctor') }}">의료진관리</a>
-            <a href="{{ url_for('admin.admin_user') }}">회원관리</a>
-            <a href="{{ url_for('admin.admin_reservation') }}">예약관리</a>
-            <a href="{{ url_for('admin.admin_board') }}">게시판관리</a>
-            <a href="{{ url_for('admin.admin_notice') }}">공지사항관리</a>
-            <a href="{{ url_for('admin.admin_security') }}">보안관제</a>
-            <a href="{{ url_for('index') }}">사이트로 이동</a>
-            <a href="{{ url_for('auth.logout') }}">로그아웃</a>
-        </nav>
+    <header class="site-header admin-site-header">
+        <div class="header-inner">
+            <h1 class="site-logo">
+                <a href="{{ url_for('admin.admin') }}"><span class="logo-mark">+</span> 병원예약시스템 <span class="admin-label">관리자</span></a>
+            </h1>
+            <nav class="main-nav">
+                <a href="{{ url_for('admin.admin') }}">대시보드</a>
+                <a href="{{ url_for('admin.admin_department') }}">진료과관리</a>
+                <a href="{{ url_for('admin.admin_doctor') }}">의료진관리</a>
+                <a href="{{ url_for('admin.admin_user') }}">회원관리</a>
+                <a href="{{ url_for('admin.admin_reservation') }}">예약관리</a>
+                <a href="{{ url_for('admin.admin_board') }}">게시판관리</a>
+                <a href="{{ url_for('admin.admin_notice') }}">공지사항관리</a>
+                <a href="{{ url_for('admin.admin_security') }}">보안관리</a>
+                <a class="nav-account" href="{{ url_for('index') }}">사이트로 이동</a>
+                <a class="nav-primary" href="{{ url_for('auth.logout') }}">로그아웃</a>
+            </nav>
+        </div>
     </header>
 
-    <main>
+    <main class="site-main admin-main">
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 <ul class="flash-messages">
-                    {% for message in messages %}
-                        <li>{{ message }}</li>
-                    {% endfor %}
+                    {% for message in messages %}<li>{{ message }}</li>{% endfor %}
                 </ul>
             {% endif %}
         {% endwith %}
-
         {% block content %}{% endblock %}
     </main>
 
-    <footer>
-        <p>&copy; 병원예약시스템 관리자</p>
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <strong>병원예약시스템 · 관리자</strong>
+            <p>회원, 예약, 의료진 및 서비스 운영 정보를 관리합니다.</p>
+            <p class="copyright">&copy; 2026 Hospital Reservation System</p>
+        </div>
     </footer>
-
     {% block extra_js %}{% endblock %}
 </body>
 </html>
