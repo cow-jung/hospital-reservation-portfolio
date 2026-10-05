@@ -1,0 +1,116 @@
+<!-- base.html의 뼈대를 가져와서 사용합니다 -->
+{% extends "base.html" %}
+
+<!-- base.html 안의 content 블록 위치에 아래 내용을 채워 넣습니다 -->
+{% block content %}
+<!-- 나중에 디자인할 때 이 줄만 삭제하면 됩니다! -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/temp_board.css') }}">
+
+<div class="board-container">
+    <h2>문의 게시판</h2>
+
+   <!-- ▼▼ 검색 폼 시작 ▼▼ -->
+    <div style="text-align: right; margin-bottom: 10px;">
+        <form action="/board" method="GET">
+            <select name="search_type" style="padding: 5px;">
+                <option value="title">제목</option>
+                <option value="name">작성자</option>
+            </select>
+            <input type="text" name="search_keyword" placeholder="검색어를 입력하세요" style="padding: 5px; width: 200px;">
+            <button type="submit" class="btn-search">검색하기</button>
+        </form>
+    </div>
+    <!-- ▲▲ 검색 폼 끝 ▲▲ -->
+
+
+    <!-- 게시글 목록을 보여줄 표(Table) 시작 -->
+    <table border="1" class="board-list-table">
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>조회수</th>
+                <th>작성일</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--
+              app.py에서 넘겨준 게시글 목록 변수인 'posts'를 반복문으로 엽니다.
+              DB설계서에 정의된 board 테이블의 컬럼명들을 그대로 사용합니다.
+            -->
+            {% for post in posts %}
+            <tr>
+                <!-- 게시글 고유 번호 -->
+                <td>{{ post.board_id }}</td>
+
+                <!--
+                  제목을 클릭하면 상세 보기 페이지로 이동하도록 링크를 겁니다.
+                  /board/view/게시글번호 형태로 주소가 만들어집니다.
+                -->
+                <!-- board.html 내 제목 출력 부분 -->
+                <!-- 제목을 출력하는 칸 -->
+                <td>
+                    <a href="/board/view/{{ post.board_id }}" style="text-decoration: none; color: black;">
+
+                        <!-- 1. 답변 상태 뱃지 (가장 먼저 표시) -->
+                        {% if post.admin_reply_count > 0 %}
+                            <span class="badge badge-complete">답변완료</span>
+                        {% else %}
+                            <span class="badge badge-waiting">답변대기</span>
+                        {% endif %}
+
+                        <!-- 2. 비밀글 자물쇠 표시 -->
+                        {% if post.is_secret %}🔒 {% endif %}
+
+                        <!-- 3. 실제 제목 -->
+                        {{ post.title }}
+
+                        <!-- 4. 댓글 개수 표시 (제목 바로 뒤에 붙음) -->
+                        {% if post.comment_count > 0 %}
+                            <span class="comment-count">[{{ post.comment_count }}]</span>
+                        {% endif %}
+
+                    </a>
+                </td>
+
+                <!-- users 테이블과 조인(JOIN)하여 가져온 작성자 이름 -->
+                <td>{{ post.name }}</td>
+
+                <!-- 게시글 조회수 -->
+                <td>{{ post.view_count }}</td>
+
+                <!-- 게시글 작성일 -->
+                <td>{{ post.created_at }}</td>
+            </tr>
+            <!-- 반복할 게시글이 없으면(표가 비어있으면) 아래 내용을 보여줍니다 -->
+            {% else %}
+            <tr>
+                <td colspan="5">등록된 게시글이 없습니다.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+
+    <!-- 두 버튼을 나란히 가운데 정렬하기 위해 center-align 클래스로 묶어줍니다 -->
+    <div class="center-align">
+
+        <!-- ▼▼ 일반 회원(관리자가 아닌 사람)에게만 글쓰기 버튼 표시 ▼▼ -->
+        {% if session.user_id and session.role != 'admin' %}
+            <a href="/board/write">
+                <button type="button">게시글 작성하기</button>
+            </a>
+        {% endif %}
+
+        <!-- 2. 관리자(admin)에게만 보여지는 관리자 페이지 이동 버튼 -->
+        {% if session.role == 'admin' %}
+            <a href="/admin/board" style="margin-left: 10px;">
+                <button type="button">관리자 페이지로 이동 (게시판 관리)</button>
+            </a>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

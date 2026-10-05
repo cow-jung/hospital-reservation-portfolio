@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+
+{% block title %}진료과 조회{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+     유민정 담당 - 진료과 조회
+
+     기능
+     1. 진료과 전체 조회
+     2. 진료과명 검색
+     3. 초성 필터
+     4. 진료과 이미지 표시
+     5. 진료과 카드 클릭 시 해당 의료진 조회로 이동
+     ========================================================= -->
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/department.css') }}"
+>
+
+<div class="department-page">
+
+    <!-- =====================================================
+         페이지 제목
+         ===================================================== -->
+    <div class="department-title">
+
+        <h1>진료과</h1>
+
+    </div>
+
+
+    <!-- =====================================================
+         진료과 검색
+         ===================================================== -->
+    <div class="department-search">
+
+        <span class="search-label">
+            🔍 검색
+        </span>
+
+        <input
+            type="text"
+            id="department_search"
+            placeholder="진료과명을 입력하세요"
+        >
+
+        <button
+            type="button"
+            id="department_search_button"
+        >
+            검색하기
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         초성 필터
+         ===================================================== -->
+    <div class="department-filter">
+
+        <button
+            type="button"
+            class="filter-button active"
+            data-filter="전체"
+        >
+            전체
+        </button>
+
+        <button type="button" class="filter-button" data-filter="ㄱ">ㄱ</button>
+        <button type="button" class="filter-button" data-filter="ㄴ">ㄴ</button>
+        <button type="button" class="filter-button" data-filter="ㄷ">ㄷ</button>
+        <button type="button" class="filter-button" data-filter="ㄹ">ㄹ</button>
+        <button type="button" class="filter-button" data-filter="ㅁ">ㅁ</button>
+        <button type="button" class="filter-button" data-filter="ㅂ">ㅂ</button>
+        <button type="button" class="filter-button" data-filter="ㅅ">ㅅ</button>
+        <button type="button" class="filter-button" data-filter="ㅇ">ㅇ</button>
+        <button type="button" class="filter-button" data-filter="ㅈ">ㅈ</button>
+        <button type="button" class="filter-button" data-filter="ㅊ">ㅊ</button>
+        <button type="button" class="filter-button" data-filter="ㅋ">ㅋ</button>
+        <button type="button" class="filter-button" data-filter="ㅌ">ㅌ</button>
+        <button type="button" class="filter-button" data-filter="ㅍ">ㅍ</button>
+        <button type="button" class="filter-button" data-filter="ㅎ">ㅎ</button>
+
+    </div>
+
+
+    <!-- =====================================================
+         진료과 목록
+         ===================================================== -->
+    <div
+        class="department-list"
+        id="department_list"
+    >
+
+        {% if departments %}
+
+            {% for department in departments %}
+
+                <!-- =============================================
+                     진료과 이름에 맞는 이미지 지정
+                     ============================================= -->
+
+                {% if department.dept_name == '내과' %}
+
+                    {% set department_image = 'images/departments/internal.svg' %}
+
+                {% elif department.dept_name == '정형외과' %}
+
+                    {% set department_image = 'images/departments/orthopedics.svg' %}
+
+                {% elif department.dept_name == '소아청소년과' %}
+
+                    {% set department_image = 'images/departments/pediatrics.svg' %}
+
+                {% elif department.dept_name == '피부과' %}
+
+                    {% set department_image = 'images/departments/dermatology.svg' %}
+
+                {% elif department.dept_name == '치과' %}
+
+                    {% set department_image = 'images/departments/dental.svg' %}
+
+                {% elif department.dept_name == '외과' %}
+
+                    {% set department_image = 'images/departments/surgery.svg' %}
+
+                {% else %}
+
+                    <!-- 등록되지 않은 진료과의 기본 이미지 -->
+                    {% set department_image = 'images/departments/internal.svg' %}
+
+                {% endif %}
+
+
+                <!-- =============================================
+                     진료과 카드
+
+                     카드를 클릭하면 해당 진료과 번호를
+                     doctor 페이지로 전달함
+                     ============================================= -->
+                <a
+                    class="department-card"
+                    data-name="{{ department.dept_name }}"
+                    href="{{ url_for(
+                        'hospital.department_detail',
+                        dept_id=department.dept_id
+                    ) }}"
+                >
+
+                    <!-- 진료과 이미지 -->
+                    <div class="department-icon">
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename=department_image
+                            ) }}"
+                            alt="{{ department.dept_name }}"
+                        >
+
+                    </div>
+
+
+                    <!-- 진료과 정보 -->
+                    <div class="department-info">
+
+                        <!-- 진료과 이름 -->
+                        <div class="department-name">
+
+                            {{ department.dept_name }}
+
+                        </div>
+
+
+                        <!-- 진료과 소개가 있으면 표시 -->
+                        {% if department.dept_description %}
+
+                            <div class="department-description">
+
+                                {{ department.dept_description }}
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </a>
+
+            {% endfor %}
+
+
+        {% else %}
+
+            <p>
+                등록된 진료과가 없습니다.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- =====================================================
+         검색 결과 없음
+         ===================================================== -->
+    <div
+        id="department_empty"
+        class="department-empty"
+    >
+        검색된 진료과가 없습니다.
+    </div>
+
+</div>
+
+
+<!-- 진료과 검색 / 초성 필터 JavaScript -->
+<script
+    src="{{ url_for(
+        'static',
+        filename='js/department.js'
+    ) }}"
+></script>
+
+
+{% endblock %}

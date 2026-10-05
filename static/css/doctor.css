@@ -1,0 +1,413 @@
+/* ==========================================================
+   의료진 페이지
+   ========================================================== */
+
+.doctor-page {
+    width: 100%;
+    max-width: 1200px;
+
+    margin: 0 auto;
+    padding: 30px 20px 60px;
+}
+
+
+/* 제목 */
+.doctor-title {
+    padding: 20px 0 50px;
+
+    text-align: center;
+
+    border-bottom: 1px solid #dddddd;
+}
+
+
+.doctor-title h1 {
+    margin: 0;
+
+    font-size: 38px;
+    font-weight: 700;
+}
+
+
+/* ==========================================================
+   검색 영역
+   ========================================================== */
+
+.doctor-search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 60px;
+    padding: 20px;
+
+    background-color: #f6f8fb;
+
+    border: 1px solid #dde3eb;
+}
+
+
+.doctor-search-label {
+    margin-right: 20px;
+
+    font-size: 18px;
+    font-weight: 600;
+}
+
+
+.doctor-search input {
+    width: 500px;
+    height: 55px;
+
+    padding: 0 20px;
+
+    border: 1px solid #d5dce5;
+
+    font-size: 16px;
+
+    box-sizing: border-box;
+}
+
+
+.doctor-search input:focus {
+    outline: none;
+
+    border-color: #0b4da2;
+}
+
+
+.doctor-search button {
+    width: 130px;
+    height: 55px;
+
+    margin-left: 5px;
+
+    border: none;
+
+    background-color: #062b59;
+
+    color: white;
+
+    font-size: 17px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+/* ==========================================================
+   초성 필터
+   ========================================================== */
+
+.doctor-filter {
+    display: flex;
+    justify-content: center;
+
+    gap: 5px;
+
+    padding: 25px 0;
+
+    border-bottom: 2px solid #0b4da2;
+}
+
+
+.doctor-filter-button {
+    min-width: 43px;
+    height: 43px;
+
+    padding: 0 12px;
+
+    background-color: white;
+
+    border: 1px solid #cbd8eb;
+    border-radius: 6px;
+
+    color: #06489c;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.doctor-filter-button:first-child {
+    min-width: 100px;
+}
+
+
+.doctor-filter-button.active {
+    background-color: #074da5;
+
+    border-color: #074da5;
+
+    color: white;
+}
+
+
+/* ==========================================================
+   의료진 카드 목록
+   ========================================================== */
+
+.doctor-list {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 20px;
+
+    margin-top: 50px;
+}
+
+
+/* ==========================================================
+   의료진 카드
+   ========================================================== */
+
+.doctor-card {
+    display: flex;
+    align-items: flex-start;
+
+    min-height: 300px;
+
+    padding: 25px;
+
+    background-color: #ffffff;
+
+    border: 1px solid #dce2e9;
+    border-radius: 8px;
+
+    box-sizing: border-box;
+
+    transition: 0.2s;
+}
+
+
+.doctor-card:hover {
+    border-color: #3985dc;
+
+    background-color: #fbfdff;
+
+    transform: translateY(-2px);
+}
+
+
+/* ==========================================================
+   의료진 사진
+   ========================================================== */
+
+.doctor-photo {
+    width: 180px;
+    height: 240px;
+
+    margin-right: 25px;
+
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    border-radius: 8px;
+
+    background-color: #f3f3f3;
+}
+
+
+.doctor-photo img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+    object-position: center top;
+}
+
+
+/* 사진 없는 경우 */
+
+.no-doctor-photo {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #999999;
+
+    font-size: 14px;
+}
+
+
+/* ==========================================================
+   의료진 정보
+   ========================================================== */
+
+.doctor-info {
+    flex: 1;
+
+    min-width: 0;
+}
+
+
+.doctor-info h3 {
+    margin: 0 0 15px;
+
+    font-size: 22px;
+    font-weight: 700;
+}
+
+
+.doctor-info p {
+    margin: 9px 0;
+
+    font-size: 14px;
+
+    color: #444444;
+
+    line-height: 1.5;
+}
+
+
+.doctor-info strong {
+    color: #111111;
+
+    font-size: 14px;
+}
+
+
+/* ==========================================================
+   예약하기 버튼
+   ========================================================== */
+
+.doctor-reservation-button {
+    display: inline-block;
+
+    margin-top: 12px;
+
+    padding: 10px 20px;
+
+    background-color: #0754b5;
+
+    color: white;
+
+    border-radius: 5px;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+.doctor-reservation-button:hover {
+    background-color: #053f89;
+}
+
+
+/* ==========================================================
+   검색 결과 없음
+   ========================================================== */
+
+.doctor-empty {
+    display: none;
+
+    padding: 60px 0;
+
+    text-align: center;
+
+    color: #777777;
+
+    font-size: 17px;
+}
+
+
+.doctor-no-data {
+    grid-column: 1 / -1;
+
+    padding: 60px 0;
+
+    text-align: center;
+
+    color: #777777;
+
+    font-size: 17px;
+}
+
+
+/* ==========================================================
+   반응형
+   ========================================================== */
+
+@media (max-width: 900px) {
+
+    .doctor-list {
+        grid-template-columns: 1fr;
+    }
+
+
+    .doctor-search input {
+        width: 100%;
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .doctor-page {
+        padding: 20px 15px 50px;
+    }
+
+
+    .doctor-title h1 {
+        font-size: 30px;
+    }
+
+
+    .doctor-search {
+        flex-direction: column;
+
+        gap: 10px;
+    }
+
+
+    .doctor-search-label {
+        margin-right: 0;
+    }
+
+
+    .doctor-search input {
+        width: 100%;
+    }
+
+
+    .doctor-search button {
+        width: 100%;
+
+        margin-left: 0;
+    }
+
+
+    .doctor-filter {
+        flex-wrap: wrap;
+    }
+
+
+    .doctor-card {
+        flex-direction: column;
+    }
+
+
+    .doctor-photo {
+        width: 160px;
+        height: 215px;
+
+        margin: 0 auto 20px;
+    }
+
+
+    .doctor-info {
+        width: 100%;
+    }
+}

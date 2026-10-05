@@ -1,0 +1,21 @@
+{% block title %}접근이 차단된 IP{% endblock %}
+
+{% block content %}
+<div style="text-align:center; margin-top:100px;">
+    <h1>접근이 차단되었습니다.</h1>
+
+    <p>
+        접속이 차단된 네트워크입니다.
+    </p>
+
+    <p>
+        아래 관리자에게 문의해 주세요.
+    </p>
+    <h3>보안 담당자: 백 민 욱</h3>
+    <h4>010-9081-2032</h4>
+
+    <p>
+        현재 접속 IP: {{ client_ip }}
+    </p>
+</div>
+{% endblock %}

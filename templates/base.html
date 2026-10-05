@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}병원예약시스템{% endblock %}</title>
+</head>
+<body>
+
+    <header>
+        <h1><a href="{{ url_for('index') }}">병원예약시스템</a></h1>
+        <nav>
+            <a href="{{ url_for('hospital.hospital') }}">병원소개</a>
+            <a href="{{ url_for('hospital.department') }}">진료과</a>
+            <a href="{{ url_for('hospital.doctor') }}">의료진</a>
+
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('reservation.reservation') }}">예약하기</a>
+                <a href="{{ url_for('board.board') }}">문의게시판</a>
+                <a href="{{ url_for('board.notice') }}">공지사항</a>
+                <a href="{{ url_for('reservation.mypage') }}">마이페이지</a>
+                {% if session.get('role') == 'admin' %}
+
+    <a href="{{ url_for('admin.admin') }}">
+        관리자
+    </a>
+
+    <a href="{{ url_for('admin.admin_security') }}">
+        보안관제
+    </a>
+
+{% endif %}
+                <a href="{{ url_for('auth.logout') }}">로그아웃</a>
+            {% else %}
+                <a href="{{ url_for('board.board') }}">문의게시판</a>
+                <a href="{{ url_for('board.notice') }}">공지사항</a>
+                <a href="{{ url_for('auth.login') }}">로그인</a>
+                <a href="{{ url_for('auth.signup') }}">회원가입</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flash-messages">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 병원예약시스템</p>
+    </footer>
+
+</body>
+</html>

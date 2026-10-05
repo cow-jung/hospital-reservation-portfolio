@@ -1,0 +1,61 @@
+{% extends "admin_base.html" %}
+{% block title %}진료과 등록{% endblock %}
+
+{% block content %}
+<h2>진료과 등록</h2>
+
+<p><a href="{{ url_for('admin.admin_department') }}">&larr; 진료과 목록으로 돌아가기</a></p>
+
+<form method="post" action="{{ url_for('admin.admin_department_create') }}" enctype="multipart/form-data">
+    <div>
+        <label for="dept_name">진료과명</label>
+        <input type="text" id="dept_name" name="dept_name" value="{{ form_data.dept_name or '' }}" required>
+    </div>
+    <br>
+
+    <div>
+        <label for="dept_description">진료과 소개</label><br>
+        <textarea id="dept_description" name="dept_description" rows="4" cols="60">{{ form_data.dept_description or '' }}</textarea>
+    </div>
+    <br>
+
+    <div>
+        <label for="dept_image_file">이미지 업로드</label>
+        <input type="file" id="dept_image_file" name="dept_image_file" accept="image/*">
+    </div>
+    <br>
+
+    <div>
+        <label for="dept_image">또는 이미지 경로 직접 입력</label>
+        <input type="text" id="dept_image" name="dept_image" placeholder="예: images/departments/internal.svg">
+        <p style="font-size:12px; color:#888; margin:4px 0 0 0;">파일을 업로드하면 이 값은 무시됩니다.</p>
+    </div>
+    <br>
+
+    <div id="dept-image-preview-wrap" style="display:none;">
+        <label>미리보기</label><br>
+        <img id="dept-image-preview" src="" alt="미리보기"
+             style="width:120px; height:120px; object-fit:contain; border:1px solid #dfe3e8; border-radius:6px; padding:6px; background:#fff;">
+    </div>
+    <br>
+
+    <div>
+        <label for="display_order">표시 순서</label>
+        <input type="text" id="display_order" name="display_order" value="{{ form_data.display_order or '' }}"
+               placeholder="비워두면 맨 뒤에 추가됩니다">
+    </div>
+    <br>
+
+    <div>
+        <label for="is_active">사용자 화면 노출</label>
+        <input type="checkbox" id="is_active" name="is_active" checked>
+    </div>
+    <br>
+
+    <button type="submit">등록</button>
+</form>
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/admin_department_create.js') }}"></script>
+{% endblock %}
+{% endblock %}

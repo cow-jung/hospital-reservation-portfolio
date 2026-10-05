@@ -1,0 +1,540 @@
+/* =====================================================================
+   마이페이지 전체
+   ===================================================================== */
+
+.mypage-container {
+    width: 100%;
+    max-width: 1000px;
+
+    margin: 40px auto;
+    padding: 30px;
+
+    box-sizing: border-box;
+}
+
+
+/* 페이지 제목 */
+.mypage-title {
+    margin-top: 0;
+    margin-bottom: 35px;
+
+    font-size: 32px;
+    font-weight: 700;
+}
+
+
+
+/* =====================================================================
+   내 정보
+   ===================================================================== */
+
+.mypage-profile {
+    padding: 25px;
+
+    background-color: #f7f9fc;
+
+    border: 1px solid #dce2e9;
+    border-radius: 8px;
+}
+
+
+.mypage-profile h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+
+    font-size: 22px;
+}
+
+
+/* 이름 */
+.profile-summary {
+    margin-bottom: 20px;
+}
+
+
+.profile-summary p {
+    margin: 0;
+
+    font-size: 17px;
+}
+
+
+
+/* =====================================================================
+   내 정보 버튼
+   ===================================================================== */
+
+.mypage-buttons {
+    display: flex;
+
+    gap: 10px;
+}
+
+
+/* 공통 버튼 */
+.mypage-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px 20px;
+
+    border: none;
+    border-radius: 5px;
+
+    background-color: #0b4da2;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-sizing: border-box;
+}
+
+
+.mypage-button:hover {
+    background-color: #083b7d;
+}
+
+
+/* 회원 탈퇴 */
+.withdraw-button {
+    background-color: white;
+
+    color: #dc3545;
+
+    border: 1px solid #dc3545;
+}
+
+
+.withdraw-button:hover {
+    background-color: #fff2f3;
+}
+
+
+
+/* =====================================================================
+   구분선
+   ===================================================================== */
+
+.mypage-container hr {
+    margin: 35px 0;
+
+    border: none;
+    border-top: 1px solid #dddddd;
+}
+
+
+
+/* =====================================================================
+   진료 / 예약 이력
+   ===================================================================== */
+
+.mypage-history h3 {
+    margin-bottom: 25px;
+
+    font-size: 23px;
+}
+
+
+/* 예약 하나 */
+.history-item {
+    margin-bottom: 20px;
+
+    padding: 25px;
+
+    border: 1px solid #dce2e9;
+    border-radius: 8px;
+
+    background-color: white;
+}
+
+
+.history-item p {
+    margin: 10px 0;
+
+    line-height: 1.6;
+}
+
+
+
+/* =====================================================================
+   예약 변경 / 취소 버튼 영역
+   ===================================================================== */
+
+.mypage-reservation-actions {
+    margin-top: 20px;
+}
+
+
+/* 예약 변경 */
+.reservation-edit-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px 18px;
+
+    border: none;
+    border-radius: 5px;
+
+    background-color: #0b4da2;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-sizing: border-box;
+}
+
+
+.reservation-edit-button:hover {
+    background-color: #083b7d;
+}
+
+
+/* 변경 불가 */
+.reservation-edit-button.disabled {
+    background-color: #bcbcbc;
+
+    color: white;
+
+    cursor: not-allowed;
+}
+
+
+/* 예약 취소 */
+.reservation-cancel-button {
+    margin-left: 8px;
+
+    padding: 10px 18px;
+
+    border: 1px solid #dc3545;
+    border-radius: 5px;
+
+    background-color: white;
+
+    color: #dc3545;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.reservation-cancel-button:hover {
+    background-color: #fff2f3;
+}
+
+
+
+/* =====================================================================
+   예약 확정 안내
+   ===================================================================== */
+
+.confirmed-guide {
+    margin-top: 10px !important;
+
+    font-size: 12px;
+
+    color: #777777;
+
+    line-height: 1.5;
+}
+
+
+
+/* =====================================================================
+   취소된 예약
+   ===================================================================== */
+
+.cancelled-text {
+    display: inline-block;
+
+    font-weight: 600;
+
+    color: #888888;
+}
+
+
+.cancel-reason {
+    margin-top: 8px !important;
+
+    font-size: 13px;
+
+    color: #777777;
+}
+
+
+
+/* =====================================================================
+   데이터 없음
+   ===================================================================== */
+
+.empty-message {
+    padding: 40px 0;
+
+    text-align: center;
+
+    color: #777777;
+}
+
+
+
+/* =====================================================================
+   공통 팝업 배경
+   ===================================================================== */
+
+.withdraw-modal,
+.cancel-modal {
+    display: none;
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color:
+        rgba(0, 0, 0, 0.45);
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 1000;
+}
+
+
+
+/* =====================================================================
+   회원 탈퇴 / 예약 취소 팝업 본체
+   ===================================================================== */
+
+.withdraw-modal-content,
+.cancel-modal-content {
+    position: relative;
+
+    width: 420px;
+    max-width: calc(100% - 40px);
+
+    padding: 30px;
+
+    background-color: white;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 8px 30px
+        rgba(0, 0, 0, 0.18);
+
+    box-sizing: border-box;
+}
+
+
+.withdraw-modal-content h3,
+.cancel-modal-content h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+
+    font-size: 22px;
+}
+
+
+
+/* =====================================================================
+   팝업 닫기 X 버튼
+   ===================================================================== */
+
+.modal-close {
+    position: absolute;
+
+    top: 10px;
+    right: 15px;
+
+    padding: 0;
+
+    border: none;
+
+    background: none;
+
+    color: #555555;
+
+    font-size: 27px;
+
+    cursor: pointer;
+}
+
+
+
+/* =====================================================================
+   팝업 입력 영역
+   ===================================================================== */
+
+.withdraw-modal-content select,
+.withdraw-modal-content textarea,
+.cancel-modal-content select,
+.cancel-modal-content textarea {
+    width: 100%;
+
+    margin-top: 10px;
+
+    padding: 11px;
+
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+
+    font-size: 14px;
+
+    box-sizing: border-box;
+}
+
+
+.withdraw-modal-content textarea,
+.cancel-modal-content textarea {
+    resize: vertical;
+}
+
+
+
+/* =====================================================================
+   회원 탈퇴 팝업 버튼
+   ===================================================================== */
+
+.withdraw-modal-buttons {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+
+.withdraw-modal-buttons button {
+    padding: 10px 18px;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+}
+
+
+/* 취소 */
+#withdraw_cancel_button {
+    border: 1px solid #cccccc;
+
+    background-color: white;
+
+    color: #333333;
+}
+
+
+/* 탈퇴 확인 */
+.withdraw-confirm-button {
+    border: none;
+
+    background-color: #dc3545;
+
+    color: white;
+}
+
+
+.withdraw-confirm-button:hover {
+    background-color: #bd2938;
+}
+
+
+
+/* =====================================================================
+   예약 취소 팝업 버튼
+   ===================================================================== */
+
+.cancel-modal-buttons {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+
+.cancel-modal-buttons button {
+    padding: 10px 18px;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+}
+
+
+/* 닫기 */
+#cancel_modal_cancel {
+    border: 1px solid #cccccc;
+
+    background-color: white;
+
+    color: #333333;
+}
+
+
+/* 예약 취소 확인 */
+.cancel-confirm-button {
+    border: none;
+
+    background-color: #dc3545;
+
+    color: white;
+}
+
+
+.cancel-confirm-button:hover {
+    background-color: #bd2938;
+}
+
+
+
+/* =====================================================================
+   반응형
+   ===================================================================== */
+
+@media (max-width: 600px) {
+
+    .mypage-container {
+        padding: 20px 15px;
+    }
+
+
+    .mypage-buttons {
+        flex-direction: column;
+    }
+
+
+    .mypage-button {
+        width: 100%;
+    }
+
+
+    .reservation-edit-button,
+    .reservation-cancel-button {
+        width: 100%;
+
+        margin-left: 0;
+        margin-top: 8px;
+    }
+}

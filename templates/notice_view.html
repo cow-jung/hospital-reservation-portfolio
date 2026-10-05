@@ -1,0 +1,46 @@
+<!-- base.html의 뼈대를 가져와서 사용합니다 -->
+{% extends "base.html" %}
+
+{% block content %}
+<!-- 나중에 디자인할 때 이 줄만 삭제하면 됩니다! -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/temp_board.css') }}">
+
+<div class="notice-view-container">
+    <h2>공지사항 상세</h2>
+    
+    <!-- 공지사항의 제목과 상세 내용을 보여줄 표(Table) -->
+    <!-- CSS 파일에 table 기본 설정(width: 100%, collapse 등)이 있어 깔끔하게 펴집니다 -->
+    <table>
+        <tr>
+            <th>제목</th>
+            <td>{{ notice.title }}</td>
+        </tr>
+        <tr>
+            <th>등록일</th>
+            <td>{{ notice.created_at }}</td>
+        </tr>
+        <tr>
+            <th>조회수</th>
+            <td>{{ notice.view_count }}</td>
+        </tr>
+        <tr>
+            <!--
+              위쪽 행들이 th(1칸) + td(1칸) = 총 2칸이므로, colspan="2"로 합쳐줍니다.
+              게시판 상세 보기에서 썼던 content-cell 클래스를 넣어 높이와 여백을 똑같이 맞춥니다.
+            -->
+            <td colspan="2" class="content-cell">
+                {{ notice.content }}
+            </td>
+        </tr>
+    </table>
+
+    <br>
+
+    <!-- 버튼 영역을 가운데로 정렬합니다 -->
+    <div class="center-align">
+        <a href="/notice">
+            <button type="button">목록으로 돌아가기</button>
+        </a>
+
+</div>
+{% endblock %}

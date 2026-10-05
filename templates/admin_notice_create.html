@@ -1,0 +1,37 @@
+{% extends "admin_base.html" %}
+{% block title %}공지사항 등록{% endblock %}
+
+{% block content %}
+<h2>공지사항 등록</h2>
+
+<p><a href="{{ url_for('admin.admin_notice') }}">&larr; 공지사항 목록으로 돌아가기</a></p>
+
+<form method="post" action="{{ url_for('admin.admin_notice_create') }}">
+    <div>
+        <label for="title">제목</label>
+        <input type="text" id="title" name="title" value="{{ form_data.title or '' }}" required>
+    </div>
+    <br>
+
+    <div>
+        <label for="content">내용</label><br>
+        <textarea id="content" name="content" rows="8" cols="60" required>{{ form_data.content or '' }}</textarea>
+    </div>
+    <br>
+
+    <div>
+        <label>구분</label><br>
+        <label class="notice-radio-label">
+            <input type="radio" name="notice_type" value="일반" {% if (form_data.notice_type or '일반') == '일반' %}checked{% endif %}>
+            일반
+        </label>
+        <label class="notice-radio-label">
+            <input type="radio" name="notice_type" value="긴급" {% if form_data.notice_type == '긴급' %}checked{% endif %}>
+            긴급
+        </label>
+    </div>
+    <br>
+
+    <button type="submit">등록</button>
+</form>
+{% endblock %}

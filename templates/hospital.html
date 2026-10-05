@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+{% block title %}병원소개{% endblock %}
+{% block content %}
+
+<!-- =====================================================================
+     유민정 담당 - 병원소개 페이지
+
+     기능
+     1. 병원 기본 소개
+     2. 병원 이미지
+     3. 주소
+     4. 운영시간
+     5. 대표전화
+     6. 찾아오는 길
+
+     ※ 병원소개 페이지는 DB를 사용하지 않는 정적 페이지
+     ===================================================================== -->
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/hospital.css') }}"
+>
+
+
+<!-- =====================================================================
+     1. 병원 기본 소개
+     ===================================================================== -->
+
+<section>
+
+    <h2>병원소개</h2>
+
+    <h3>대보종합병원</h3>
+
+    <p>
+        환자의 건강과 편안한 진료를 위해
+        신뢰할 수 있는 의료 서비스를 제공하는 병원입니다.
+    </p>
+
+    <p>
+        각 진료과별 전문 의료진이 환자 한 분 한 분의 상태를
+        세심하게 확인하고 맞춤형 진료를 제공하고 있습니다.
+    </p>
+
+</section>
+
+<hr>
+
+<!-- =====================================================================
+     2. 병원 이미지 슬라이드
+     - 병원 외관 / 로비 / 진료 / 편의시설 이미지를 순서대로 표시
+     ===================================================================== -->
+
+<section class="hospital-slider">
+
+    <!-- 슬라이드 이미지 영역 -->
+    <div class="slider-container">
+
+        <!-- 첫 번째 이미지만 처음에 표시 -->
+        <img
+            src="{{ url_for('static', filename='images/hospital/daebo_hospital_exterior.svg') }}"
+            alt="대보종합병원 외관"
+            class="hospital-slide active"
+        >
+
+        <img
+            src="{{ url_for('static', filename='images/hospital/daebo_hospital_care.svg') }}"
+            alt="대보종합병원 케어"
+            class="hospital-slide"
+        >
+
+        <img
+            src="{{ url_for('static', filename='images/hospital/daebo_hospital_lobby.svg') }}"
+            alt="대보종합병원 로비"
+            class="hospital-slide"
+        >
+
+        <img
+            src="{{ url_for('static', filename='images/hospital/daebo_hospital_ward.svg') }}"
+            alt="대보종합병원 병동"
+            class="hospital-slide"
+        >
+
+        <img
+            src="{{ url_for('static', filename='images/hospital/daebo_hospital_room.svg') }}"
+            alt="대보종합병원 병실"
+            class="hospital-slide"
+        >
+
+
+        <!-- 이전 이미지 버튼 -->
+        <button
+            type="button"
+            id="slide_prev"
+            class="slide-button slide-prev"
+        >
+            &#10094;
+        </button>
+
+
+        <!-- 다음 이미지 버튼 -->
+        <button
+            type="button"
+            id="slide_next"
+            class="slide-button slide-next"
+        >
+            &#10095;
+        </button>
+
+    </div>
+
+
+    <!-- 현재 슬라이드 위치 표시 -->
+    <div class="slide-dots">
+
+        <button type="button" class="slide-dot active" data-slide="0"></button>
+
+        <button type="button" class="slide-dot" data-slide="1"></button>
+
+        <button type="button" class="slide-dot" data-slide="2"></button>
+
+        <button type="button" class="slide-dot" data-slide="3"></button>
+
+        <button type="button" class="slide-dot" data-slide="4"></button>
+
+    </div>
+
+</section>
+
+<hr>
+
+<!-- =====================================================================
+     3. 병원 위치
+     ===================================================================== -->
+
+<section>
+
+    <h3>병원 위치</h3>
+
+    <p>경기도 수원시 팔달구 덕영대로895번길 9-1</p>
+
+</section>
+
+<hr>
+
+<!-- =====================================================================
+     4. 운영시간
+     ===================================================================== -->
+
+<section>
+
+    <h3>운영시간</h3>
+
+    <table border="1" class="hospital-hours">
+
+        <thead>
+            <tr>
+                <th>요일</th>
+                <th>진료시간</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>월요일 ~ 금요일</td>
+                <td>09:00 ~ 18:00</td>
+            </tr>
+
+            <tr>
+                <td>토요일</td>
+                <td>09:00 ~ 13:00</td>
+            </tr>
+
+            <tr>
+                <td>일요일 / 공휴일</td>
+                <td>휴진</td>
+            </tr>
+
+            <tr>
+                <td>점심시간</td>
+                <td>13:00 ~ 14:00</td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</section>
+
+<hr>
+
+<!-- =====================================================================
+     5. 대표전화
+     ===================================================================== -->
+
+<section>
+
+    <h3>대표전화</h3>
+
+    <p>031-000-0000</p>
+
+</section>
+
+<hr>
+
+<!-- =====================================================================
+     6. 찾아오는 길
+     ===================================================================== -->
+
+<section>
+
+    <h3>찾아오는 길</h3>
+
+    <p>
+        <strong>버스:</strong>
+        대보종합병원 정류장 하자 후 도보 3분
+    </p>
+
+    <p>
+        <strong>자가용:</strong>
+        병원 건물 주차장 이용 가능
+    </p>
+
+    <div>
+        지도 영역
+    </div>
+
+</section>
+
+<!-- 병원소개 페이지 JavaScript -->
+<script src="{{ url_for('static', filename='js/hospital.js') }}"></script>
+
+{% endblock %}

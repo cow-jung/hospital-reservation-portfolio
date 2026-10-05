@@ -1,0 +1,82 @@
+<!-- base.html의 뼈대를 가져와서 사용합니다 -->
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- 나중에 디자인할 때 이 줄만 삭제하면 됩니다! -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/temp_board.css') }}">
+
+<div class="notice-container">
+    <h2>공지사항</h2>
+
+    <!-- ▼▼ 검색 폼 시작 ▼▼ -->
+    <div style="text-align: right; margin-bottom: 10px;">
+        <form action="/notice" method="GET">
+            <!-- 공지사항은 제목 검색만 있으므로 select는 숨겨두거나 하나만 둡니다 -->
+            <select name="search_type" style="padding: 5px;">
+                <option value="title">제목</option>
+            </select>
+            <input type="text" name="search_keyword" placeholder="검색어를 입력하세요" style="padding: 5px; width: 200px;">
+            <button type="submit" class="btn-search">검색하기</button>
+        </form>
+    </div>
+    <!-- ▲▲ 검색 폼 끝 ▲▲ -->
+    
+    <!-- 공지사항 메뉴를 보여주는 부분에 css 클래스 추가 -->
+    <table border="1" class="notice-list-table">
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>조회수</th>
+                <th>등록일</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 
+              app.py에서 넘겨준 공지사항 목록 변수인 'notices'를 반복문으로 엽니다. 
+              DB설계서에 정의된 notice 테이블의 컬럼명들을 그대로 사용합니다.
+            -->
+            {% for notice_item in notices %}
+            <tr>
+                <!-- 공지사항 고유 번호 -->
+                <td>{{ notice_item.notice_id }}</td>
+                
+                <!-- 제목을 클릭하면 상세 보기 페이지로 이동합니다. -->
+                <td>
+                    <a href="/notice/view/{{ notice_item.notice_id }}">
+                        {{ notice_item.title }}
+                    </a>
+                </td>
+                
+                <!-- 공지사항 조회수 -->
+                <td>{{ notice_item.view_count }}</td>
+                
+                <!-- 공지사항 등록일 -->
+                <td>{{ notice_item.created_at }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4">등록된 공지사항이 없습니다.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+
+    <!--
+      현재 로그인한 사용자의 권한(role)이 'admin'인 경우에만
+      관리자용 페이지로 넘어갈 수 있는 지름길 버튼을 보여줍니다.
+    -->
+    {% if session.role == 'admin' %}
+    <div class="center-align">
+        <!-- 관리자 공지사항 관리 페이지인 /admin/notice 로 이동합니다 -->
+        <a href="/admin/notice">
+            <button type="button">관리자 페이지로 이동 (공지사항 관리)</button>
+        </a>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

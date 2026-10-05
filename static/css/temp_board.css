@@ -1,0 +1,392 @@
+/* =====================================================================
+   사용자 게시판 통합 CSS (문의 게시판 & 공지사항)
+   - 모던하고 고급스러운 무테(Borderless) 디자인 적용
+===================================================================== */
+
+/* -----------------------------------
+   1. 전체 컨테이너 및 제목
+----------------------------------- */
+.board-container,
+.board-view-container,
+.notice-container,
+.notice-view-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 30px 40px 60px;
+    box-sizing: border-box;
+    font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+}
+
+.board-container h2,
+.board-view-container h2,
+.notice-container h2,
+.notice-view-container h2 {
+    padding: 10px 0 20px;
+    margin: 0 0 30px 0;
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center; /* 가운데 정렬이 어울리면 유지, 왼쪽을 원하시면 left로 변경 가능 */
+    border-bottom: 1px solid #e0e4e8;
+    color: #111111;
+}
+
+/* -----------------------------------
+   2. 표(Table) 모던 무테 디자인 (목록 화면 전용)
+----------------------------------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    text-align: center;
+    border: none;
+}
+
+/* 목록 표 제목(헤더)칸 */
+.board-container th,
+.notice-container th {
+    padding: 18px 10px;
+    background-color: transparent;
+    border: none;
+    border-top: 2px solid #222222;
+    border-bottom: 1px solid #dce2e9;
+    font-size: 15px;
+    font-weight: 600;
+    color: #222;
+}
+
+/* 목록 표 내용칸 */
+.board-container td,
+.notice-container td {
+    padding: 18px 10px;
+    border: none;
+    border-bottom: 1px solid #f0f2f5;
+    font-size: 14px;
+    color: #444444;
+    background-color: #ffffff;
+    transition: background-color 0.2s ease;
+}
+
+.board-container tbody tr:hover td,
+.notice-container tbody tr:hover td {
+    background-color: #f8fafc;
+}
+
+/* -----------------------------------
+   2-1. 게시글 상세 보기 표 전용 디자인
+----------------------------------- */
+/* 상세 보기 표 외곽선 */
+.board-view-container table,
+.notice-view-container table {
+    border-top: 2px solid #111111;
+    border-bottom: 1px solid #dce2e9;
+}
+
+/* 제목, 작성자, 작성일 라벨 칸 (th) */
+.board-view-container th,
+.notice-view-container th {
+    background-color: #f6f8fb; /* department.css의 은은한 배경색 활용 */
+    color: #111111;
+    font-weight: 600;
+    border: none;
+    border-bottom: 1px solid #dce2e9; /* 부드러운 가로선 활용 */
+    padding: 16px 20px;
+    text-align: center;
+    width: 15%; /* 라벨 칸 너비 고정 */
+}
+
+/* 상세 내용 텍스트 칸 (td) */
+.board-view-container td,
+.notice-view-container td {
+    background-color: #ffffff;
+    border: none;
+    border-bottom: 1px solid #dce2e9;
+    padding: 16px 20px;
+    color: #444444;
+    text-align: left;
+}
+
+/* 본문 내용이 들어가는 아주 큰 칸 (content-cell) */
+.board-view-container .content-cell,
+.notice-view-container .content-cell {
+    padding: 50px 30px;
+    border-bottom: none;
+    color: #333333;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+/* 상세 화면에서는 마우스 오버 배경색 변경 효과 제거 */
+.board-view-container tr:hover td,
+.notice-view-container tr:hover td {
+    background-color: #ffffff;
+}
+
+/* -----------------------------------
+   3. 게시판 목록 표 전용 열 너비 및 정렬
+----------------------------------- */
+.board-list-table th:nth-child(1) { width: 10%; }
+.board-list-table th:nth-child(2) { width: 50%; }
+.board-list-table th:nth-child(3) { width: 15%; }
+.board-list-table th:nth-child(4) { width: 10%; }
+.board-list-table th:nth-child(5) { width: 15%; }
+
+.notice-list-table th:nth-child(1) { width: 10%; }
+.notice-list-table th:nth-child(2) { width: 60%; }
+.notice-list-table th:nth-child(3) { width: 10%; }
+.notice-list-table th:nth-child(4) { width: 20%; }
+
+.board-list-table td:nth-child(2),
+.notice-list-table td:nth-child(2) {
+    text-align: left;
+    padding-left: 20px;
+}
+
+td a { text-decoration: none; color: #222; }
+td a:hover { color: #0754b5; text-decoration: underline; }
+
+/* -----------------------------------
+   4. 버튼 스타일 (검색 버튼 포인트)
+----------------------------------- */
+/* -----------------------------------
+   4. 버튼 스타일 (크기 및 통일성 조정)
+----------------------------------- */
+button {
+    display: inline-block;
+    padding: 8px 18px; /* 기본 버튼 크기 */
+    border-radius: 3px;
+    background-color: #0754b5;
+    color: #ffffff;
+    border: 1px solid #0754b5;
+    font-size: 14px;   /* 기본 글씨 크기 */
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    vertical-align: middle; /* 폼 안에서 버튼 높낮이 맞춤 */
+}
+button:hover { background-color: #053f89; }
+
+/* ▼▼▼ 검색 버튼 크기 축소 ▼▼▼ */
+.btn-search {
+    background-color: #062b59 !important;
+    border-color: #062b59 !important;
+    border-radius: 0px;
+    padding: 6px 14px;  /* 기존 9px 24px에서 대폭 축소 */
+    font-size: 13px;    /* 글씨도 살짝 줄여서 날렵하게 */
+}
+.btn-search:hover {
+    background-color: #061226 !important;
+}
+
+/* 취소, 목록 등 기본 뼈대(Outline) 버튼 */
+button[type="button"]:not(.btn-delete),
+.btn-outline {
+    background-color: #ffffff;
+    color: #444444;
+    border: 1px solid #dce2e9;
+}
+button[type="button"]:not(.btn-delete):hover,
+.btn-outline:hover { background-color: #f7f9fc; }
+
+/* ▼▼▼ 삭제 전용 버튼 (수정하기 버튼과 크기 완벽 통일) ▼▼▼ */
+.btn-delete {
+    background-color: #ffffff;
+    color: #d93838;
+    border: 1px solid #d93838;
+    padding: 8px 18px; /* 수정하기(기본 버튼)와 동일한 패딩 */
+    font-size: 14px;   /* 수정하기(기본 버튼)와 동일한 글자 크기 */
+}
+.btn-delete:hover { background-color: #fff0f0; }
+
+/* 단, 댓글 창에 있는 수정/삭제 버튼은 좁은 공간을 위해 작게 통일 */
+li button.inline-form,
+.delete-comment-form .btn-delete {
+    padding: 4px 10px;
+    font-size: 12px;
+}
+
+/* -----------------------------------
+   5. 뱃지 및 상태 표시
+----------------------------------- */
+.badge {
+    font-size: 0.8em;
+    padding: 3px 8px;
+    color: white;
+    border-radius: 3px;
+    margin-right: 8px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.badge-complete { background-color: #0754b5; }
+.badge-waiting { background-color: #888888; }
+.comment-count {
+    color: #d93838;
+    font-size: 0.9em;
+    font-weight: bold;
+    margin-left: 6px;
+}
+
+/* -----------------------------------
+   6. 댓글 영역 디자인 (은은한 구분선 추가)
+----------------------------------- */
+/* 기존에 숨겼던 hr을 예쁜 구분선으로 살려냅니다 */
+.board-view-container hr,
+.notice-view-container hr {
+    display: block;
+    border: none;
+    border-top: 1px solid #dce2e9; /* 본문과 댓글을 나누는 부드러운 선 */
+    margin: 50px 0 30px 0; /* 위아래 여백을 넉넉히 주어 답답함을 없앰 */
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 0;
+}
+
+li {
+    padding: 20px 10px;
+    border-bottom: 1px solid #f0f2f5;
+}
+
+li strong { font-size: 15px; color: #222; }
+li span { font-size: 13px; color: #888; margin-left: 5px; }
+li div { margin-top: 12px; color: #444; font-size: 14px; line-height: 1.6; }
+
+
+/* -----------------------------------
+   7. 폼(Form) 및 유틸리티 (입력칸 포인트)
+----------------------------------- */
+.form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #dce2e9;
+    border-radius: 2px;
+    box-sizing: border-box;
+}
+
+/* ▼▼▼ 댓글 입력칸 디자인 고도화 ▼▼▼ */
+.comment-input-wide {
+    width: 60%;
+    max-width: 600px;
+    padding: 12px 15px;
+    border: 1px solid #dce2e9;
+    background-color: #f8fafc; /* 입력칸에 아주 연한 배경색을 주어 영역 분리 */
+    border-radius: 4px;
+    margin-right: 8px;
+    display: inline-block;
+    vertical-align: middle;
+    transition: all 0.2s ease; /* 부드러운 전환 효과 */
+}
+
+/* 입력칸을 클릭(포커스)했을 때 고급스러운 파란색 테두리 */
+.comment-input-wide:focus {
+    outline: none;
+    border-color: #0b4da2;
+    background-color: #ffffff;
+}
+
+form button {
+    vertical-align: middle;
+}
+
+.pointer-label { cursor: pointer; color: #444; }
+.right-align { text-align: right; margin-top: 10px; }
+.center-align { text-align: center; }
+.action-container { margin-top: 15px; margin-bottom: 20px; }
+.bottom-btn-container { margin-top: 40px; } /* 맨 아래 여백을 살짝 더 확보 */
+.no-underline { text-decoration: none; }
+.inline-form { display: inline-block; margin-left: 5px; }
+.btn-mr-5 { margin-right: 5px; }
+.delete-comment-form { display: inline-block; margin-left: 5px; }
+.hidden-form { display: none; margin-top: 15px; }
+
+/* -----------------------------------
+   9. 게시글 작성/수정 화면 전용 스타일
+----------------------------------- */
+.board-write-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 30px 40px 60px;
+    box-sizing: border-box;
+    font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+}
+
+.board-write-container h2 {
+    padding: 10px 0 20px;
+    margin: 0 0 30px 0;
+    font-size: 28px;
+    font-weight: 700;
+    text-align: left;
+    border-bottom: 1px solid #e0e4e8;
+    color: #111111;
+}
+
+/* 상세 보기 표와 완전히 동일한 무테 디자인 적용 */
+.board-write-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    border-top: 2px solid #0b4da2;
+    border-bottom: 1px solid #dce2e9;
+}
+
+.board-write-container th {
+    background-color: #f6f8fb;
+    color: #111111;
+    font-weight: 600;
+    border: none;
+    border-bottom: 1px solid #dce2e9;
+    padding: 16px 20px;
+    text-align: center;
+    width: 15%;
+}
+
+.board-write-container td {
+    background-color: #ffffff;
+    border: none;
+    border-bottom: 1px solid #dce2e9;
+    padding: 16px 20px;
+    color: #444444;
+    text-align: left;
+}
+
+/* 제목 입력 상자 디자인 */
+.board-write-container input[type="text"] {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #dce2e9;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    background-color: #f8fafc;
+    transition: all 0.2s ease;
+}
+
+.board-write-container input[type="text"]:focus {
+    outline: none;
+    border-color: #0b4da2;
+    background-color: #ffffff;
+}
+
+/* 내용 입력 텍스트상자 디자인 */
+.board-write-container textarea {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #dce2e9;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    line-height: 1.6;
+    background-color: #f8fafc;
+    resize: vertical; /* 세로 크기만 조절 가능 */
+    transition: all 0.2s ease;
+}
+
+.board-write-container textarea:focus {
+    outline: none;
+    border-color: #0b4da2;
+    background-color: #ffffff;
+}

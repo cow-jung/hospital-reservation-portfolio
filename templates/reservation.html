@@ -1,0 +1,769 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+진료 예약
+{% endblock %}
+
+
+{% block content %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for(
+        'static',
+        filename='css/reservation.css'
+    ) }}"
+>
+
+
+<div class="reservation-page">
+
+
+    <!-- =========================================================
+         제목
+         ========================================================= -->
+
+    <div class="reservation-page-title">
+
+        <h2>
+            진료 예약
+        </h2>
+
+        <p>
+            진료과와 의료진을 선택한 후
+            원하는 날짜와 시간을 선택해주세요.
+        </p>
+
+    </div>
+
+
+
+    <!-- =========================================================
+         신규 예약
+         ========================================================= -->
+
+    <section class="reservation-section">
+
+        <h3 class="section-title">
+            신규 예약
+        </h3>
+
+
+        <form
+            method="POST"
+            id="new_reservation_form"
+        >
+
+
+            <!-- =====================================================
+                 진료과
+                 ===================================================== -->
+
+            <div class="form-group">
+
+                <label for="dept_id">
+                    진료과
+                </label>
+
+
+                <select
+                    id="dept_id"
+                    name="dept_id"
+                    required
+                >
+
+                    <option value="">
+                        진료과를 선택해주세요.
+                    </option>
+
+
+                    {% for department in departments %}
+
+                    <option
+                        value="{{ department.dept_id }}"
+
+                        {% if
+                            selected_dept_id
+                            and
+                            selected_dept_id|int
+                            ==
+                            department.dept_id
+                        %}
+                            selected
+                        {% endif %}
+                    >
+
+                        {{ department.dept_name }}
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+
+            <!-- =====================================================
+                 의료진
+                 ===================================================== -->
+
+            <div class="form-group">
+
+                <label for="doctor_id">
+                    의료진
+                </label>
+
+
+                <select
+                    id="doctor_id"
+                    name="doctor_id"
+                    required
+                >
+
+                    <option value="">
+                        의료진을 선택해주세요.
+                    </option>
+
+
+                    {% for doctor in doctors %}
+
+                    <option
+                        value="{{ doctor.doctor_id }}"
+
+                        data-dept-id="{{ doctor.dept_id }}"
+
+                        {% if
+                            selected_doctor_id
+                            and
+                            selected_doctor_id|int
+                            ==
+                            doctor.doctor_id
+                        %}
+                            selected
+                        {% endif %}
+                    >
+
+                        {{ doctor.doctor_name }}
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+
+            <!-- =====================================================
+                 Flask로 전달할 실제 예약 날짜 / 시간
+                 ===================================================== -->
+
+            <input
+                type="hidden"
+                id="new_reservation_date"
+                name="reservation_date"
+            >
+
+
+            <input
+                type="hidden"
+                id="new_reservation_time"
+                name="reservation_time"
+            >
+
+
+
+            <!-- =====================================================
+                 신규예약 달력
+                 ===================================================== -->
+
+            <div class="reservation-calendar-area">
+
+
+                <h4>
+                    예약 날짜
+                </h4>
+
+
+                <div class="calendar-container">
+
+
+                    <!-- 달력 상단 -->
+
+                    <div class="calendar-header">
+
+
+                        <button
+                            type="button"
+                            id="new_prev_month"
+                            class="month-button"
+                        >
+                            &#10094;
+                        </button>
+
+
+                        <h3 id="new_calendar_title">
+                        </h3>
+
+
+                        <button
+                            type="button"
+                            id="new_next_month"
+                            class="month-button"
+                        >
+                            &#10095;
+                        </button>
+
+
+                    </div>
+
+
+
+                    <!-- 달력 -->
+
+                    <table class="reservation-calendar">
+
+                        <thead>
+
+                            <tr>
+
+                                <th class="sunday-header">
+                                    일
+                                </th>
+
+                                <th>
+                                    월
+                                </th>
+
+                                <th>
+                                    화
+                                </th>
+
+                                <th>
+                                    수
+                                </th>
+
+                                <th>
+                                    목
+                                </th>
+
+                                <th>
+                                    금
+                                </th>
+
+                                <th class="saturday-header">
+                                    토
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="new_calendar_body">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+
+                <p
+                    id="new_selected_date"
+                    class="selected-info"
+                >
+                    선택한 날짜 : 없음
+                </p>
+
+            </div>
+
+
+
+            <!-- =====================================================
+                 신규예약 시간
+                 ===================================================== -->
+
+            <div
+                id="new_time_area"
+                class="reservation-time-area"
+                style="display: none;"
+            >
+
+
+                <h4>
+                    예약 가능한 시간
+                </h4>
+
+
+                <div
+                    id="new_time_buttons"
+                    class="time-buttons"
+                >
+                </div>
+
+
+                <p
+                    id="new_selected_time"
+                    class="selected-info"
+                >
+                    선택한 시간 : 없음
+                </p>
+
+            </div>
+
+
+
+            <!-- =====================================================
+                 증상 / 방문 사유
+                 ===================================================== -->
+
+            <div class="form-group symptom-group">
+
+                <label for="memo">
+                    증상 / 메모
+                </label>
+
+
+                <textarea
+                    id="memo"
+                    name="memo"
+                    rows="5"
+                    placeholder="증상 또는 방문 사유를 입력해주세요."
+                ></textarea>
+
+            </div>
+
+
+
+            <!-- =====================================================
+                 예약 버튼
+                 ===================================================== -->
+
+            <button
+                type="submit"
+                class="reservation-submit-button"
+            >
+                예약하기
+            </button>
+
+
+        </form>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         과거이력으로 예약
+         ========================================================= -->
+
+    <section class="reservation-section">
+
+
+        <h3 class="section-title">
+            과거이력으로 예약
+        </h3>
+
+
+        <p class="section-guide">
+            이전 예약의 진료과와 의료진을 그대로 사용하고,
+            새로운 날짜와 시간을 선택하여 다시 예약할 수 있습니다.
+        </p>
+
+
+
+        {% if history %}
+
+
+        <!-- =====================================================
+             과거 예약 목록
+             ===================================================== -->
+
+        <div class="history-list">
+
+
+            {% for item in history %}
+
+
+            <div class="history-card">
+
+
+                <!-- 예약 정보 -->
+
+                <div class="history-info">
+
+
+                    <p>
+                        <strong>
+                            예약번호 :
+                        </strong>
+
+                        {{ item.reservation_id }}
+                    </p>
+
+
+                    <p>
+                        <strong>
+                            진료과 :
+                        </strong>
+
+                        {{ item.dept_name }}
+                    </p>
+
+
+                    <p>
+                        <strong>
+                            의료진 :
+                        </strong>
+
+                        {{ item.doctor_name }}
+                    </p>
+
+
+                    <p>
+                        <strong>
+                            기존 예약 일시 :
+                        </strong>
+
+                        {{ item.reservation_date }}
+
+                        {{ item.reservation_time }}
+                    </p>
+
+
+                </div>
+
+
+
+                <!-- 재예약 버튼 -->
+
+                <button
+                    type="button"
+                    class="history-rebook-button"
+
+                    data-reservation-id="{{ item.reservation_id }}"
+
+                    data-doctor-id="{{ item.doctor_id }}"
+
+                    data-doctor-name="{{ item.doctor_name }}"
+
+                    data-dept-name="{{ item.dept_name }}"
+                >
+                    이 조건으로 재예약
+                </button>
+
+
+            </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+        {% else %}
+
+
+        <p class="empty-message">
+            과거 예약 이력이 없습니다.
+        </p>
+
+
+        {% endif %}
+
+
+
+        <!-- =====================================================
+             재예약 일정 선택 영역
+             ===================================================== -->
+
+        <div
+            id="rebook_panel"
+            class="rebook-panel"
+            style="display: none;"
+        >
+
+
+            <h3>
+                재예약 일정 선택
+            </h3>
+
+
+
+            <!-- 선택한 과거 예약 정보 -->
+
+            <div class="selected-history">
+
+
+                <p>
+                    <strong>
+                        진료과 :
+                    </strong>
+
+                    <span id="re_dept_name">
+                    </span>
+                </p>
+
+
+                <p>
+                    <strong>
+                        의료진 :
+                    </strong>
+
+                    <span id="re_doctor_name">
+                    </span>
+                </p>
+
+
+            </div>
+
+
+
+            <form
+                method="POST"
+                id="rebook_form"
+            >
+
+
+                <!-- =================================================
+                     재예약 의료진
+                     ================================================= -->
+
+                <input
+                    type="hidden"
+                    id="re_doctor_id"
+                    name="doctor_id"
+                >
+
+
+
+                <!-- =================================================
+                     원래 예약번호
+
+                     현재는 참고용으로 사용
+                     ================================================= -->
+
+                <input
+                    type="hidden"
+                    id="re_source_reservation_id"
+                    name="source_reservation_id"
+                >
+
+
+
+                <!-- =================================================
+                     재예약 날짜
+                     ================================================= -->
+
+                <input
+                    type="hidden"
+                    id="re_reservation_date"
+                    name="reservation_date"
+                >
+
+
+
+                <!-- =================================================
+                     재예약 시간
+                     ================================================= -->
+
+                <input
+                    type="hidden"
+                    id="re_reservation_time"
+                    name="reservation_time"
+                >
+
+
+
+                <!-- =================================================
+                     재예약 달력
+                     ================================================= -->
+
+                <div class="calendar-container">
+
+
+                    <div class="calendar-header">
+
+
+                        <button
+                            type="button"
+                            id="re_prev_month"
+                            class="month-button"
+                        >
+                            &#10094;
+                        </button>
+
+
+                        <h3 id="re_calendar_title">
+                        </h3>
+
+
+                        <button
+                            type="button"
+                            id="re_next_month"
+                            class="month-button"
+                        >
+                            &#10095;
+                        </button>
+
+
+                    </div>
+
+
+
+                    <table class="reservation-calendar">
+
+                        <thead>
+
+                            <tr>
+
+                                <th class="sunday-header">
+                                    일
+                                </th>
+
+                                <th>
+                                    월
+                                </th>
+
+                                <th>
+                                    화
+                                </th>
+
+                                <th>
+                                    수
+                                </th>
+
+                                <th>
+                                    목
+                                </th>
+
+                                <th>
+                                    금
+                                </th>
+
+                                <th class="saturday-header">
+                                    토
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="re_calendar_body">
+                        </tbody>
+
+                    </table>
+
+
+                </div>
+
+
+
+                <!-- 선택 날짜 -->
+
+                <p
+                    id="re_selected_date"
+                    class="selected-info"
+                >
+                    선택한 날짜 : 없음
+                </p>
+
+
+
+                <!-- =================================================
+                     재예약 시간
+                     ================================================= -->
+
+                <div
+                    id="re_time_area"
+                    class="reservation-time-area"
+                    style="display: none;"
+                >
+
+
+                    <h4>
+                        예약 가능한 시간
+                    </h4>
+
+
+                    <div
+                        id="re_time_buttons"
+                        class="time-buttons"
+                    >
+                    </div>
+
+
+                    <p
+                        id="re_selected_time"
+                        class="selected-info"
+                    >
+                        선택한 시간 : 없음
+                    </p>
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     재예약 버튼
+                     ================================================= -->
+
+                <button
+                    type="submit"
+                    class="reservation-submit-button"
+                >
+                    재예약하기
+                </button>
+
+
+            </form>
+
+
+        </div>
+
+
+    </section>
+
+
+</div>
+
+
+
+<!-- =================================================================
+     병원 운영일 / 진료시간 공통 JS
+
+     일요일
+     공휴일
+     토요일 진료시간
+     ================================================================= -->
+
+<script
+    src="{{ url_for(
+        'static',
+        filename='js/hospital_schedule.js'
+    ) }}"
+></script>
+
+
+
+<!-- =================================================================
+     신규예약 / 과거이력 재예약 JS
+     ================================================================= -->
+
+<script
+    src="{{ url_for(
+        'static',
+        filename='js/reservation.js'
+    ) }}"
+></script>
+
+
+{% endblock %}

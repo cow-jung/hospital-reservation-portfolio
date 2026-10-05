@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}메인{% endblock %}
+{% block content %}
+
+<section class="hero">
+    <h2>병원 예약 시스템</h2>
+    <p>진료 예약부터 마이페이지까지, 온라인으로 간편하게 이용하세요.</p>
+    <a href="{{ url_for('reservation.reservation') }}">예약하기</a>
+</section>
+
+<section class="quick-menu">
+    <a href="{{ url_for('hospital.hospital') }}">병원소개</a>
+    <a href="{{ url_for('hospital.department') }}">진료과 안내</a>
+    <a href="{{ url_for('hospital.doctor') }}">의료진 소개</a>
+    <a href="{{ url_for('reservation.reservation') }}">진료 예약</a>
+    <a href="{{ url_for('board.board') }}">문의 게시판</a>
+    <a href="{{ url_for('board.notice') }}">공지사항</a>
+</section>
+
+<section class="notice-preview">
+    <h3>공지사항</h3>
+    {% if notices %}
+        <ul>
+            {% for n in notices %}
+            <li>
+                <a href="{{ url_for('board.notice_view', notice_id=n.notice_id) }}">
+                    {{ n.title }} <span>{{ n.created_at }}</span>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>등록된 공지사항이 없습니다.</p>
+    {% endif %}
+    <a href="{{ url_for('board.notice') }}">더보기</a>
+</section>
+
+<section class="board-preview">
+    <h3>최근 게시글</h3>
+    {% if latest_posts %}
+        <ul>
+            {% for p in latest_posts %}
+            <li>
+                <a href="{{ url_for('board.board_view', board_id=p.board_id) }}">
+                    {{ p.title }} <span>{{ p.created_at }}</span>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>등록된 게시글이 없습니다.</p>
+    {% endif %}
+    <a href="{{ url_for('board.board') }}">더보기</a>
+</section>
+
+{% endblock %}

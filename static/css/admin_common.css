@@ -1,0 +1,689 @@
+/*
+  admin_common.css
+  ------------------------------------------------------------
+  관리자 페이지(admin.html, admin_department.html, admin_doctor.html,
+  admin_user.html, admin_reservation.html, admin_board.html,
+  admin_notice.html, security_logs.html) 에만 적용되는 임시 스타일입니다.
+
+  각 페이지의 {% block extra_css %} 안에서만 이 파일을 불러오기 때문에,
+  회원용 화면(base.html을 쓰는 다른 페이지들)에는 영향을 주지 않습니다.
+
+  나중에 정식 디자인으로 교체될 때까지 "표/폼이 최소한 보기 편하게"
+  정리하는 용도의 임시 스타일입니다.
+------------------------------------------------------------- */
+
+/* 전체 컨텐츠 폭 제한 + 여백 */
+main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px 16px 60px 16px;
+    font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+    color: #222;
+}
+
+main h2 {
+    font-size: 22px;
+    margin: 0 0 16px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #2b6cb0;
+    color: #1a365d;
+}
+
+main h3 {
+    font-size: 16px;
+    margin: 28px 0 10px 0;
+    color: #2b6cb0;
+}
+
+main hr {
+    border: none;
+    border-top: 1px solid #dfe3e8;
+    margin: 24px 0;
+}
+
+main p {
+    color: #555;
+    font-size: 13px;
+    margin: 4px 0 12px 0;
+}
+
+/* 표 스타일 */
+main table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 8px 0 20px 0;
+    font-size: 13px;
+    background: #fff;
+}
+
+main table th,
+main table td {
+    border: 1px solid #dfe3e8 !important;
+    padding: 8px 10px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+main table th {
+    background: #eaf1fb;
+    color: #1a365d;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+main table tr:nth-child(even) td {
+    background: #fafbfc;
+}
+
+main table tr:hover td {
+    background: #f0f6ff;
+}
+
+/* 폼 요소 */
+main form {
+    margin: 0;
+}
+
+main label {
+    display: inline-block;
+    min-width: 110px;
+    font-size: 13px;
+    color: #333;
+    font-weight: 600;
+}
+
+main input[type="text"],
+main input[type="email"],
+main input[type="password"],
+main select,
+main textarea {
+    padding: 6px 8px;
+    border: 1px solid #ccd3db;
+    border-radius: 4px;
+    font-size: 13px;
+    box-sizing: border-box;
+}
+
+main table input[type="text"],
+main table input[type="email"],
+main table select,
+main table textarea {
+    width: 100%;
+}
+
+main textarea {
+    resize: vertical;
+    font-family: inherit;
+}
+
+/* 등록 폼(카드처럼 보이게) */
+main > form {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 16px 18px;
+    max-width: 480px;
+}
+
+/* 버튼 */
+main button {
+    padding: 6px 14px;
+    border-radius: 4px;
+    border: 1px solid #2b6cb0;
+    background: #2b6cb0;
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+main button:hover {
+    background: #1a4e8a;
+}
+
+/* "삭제" 계열 버튼: value="delete" 인 버튼은 붉은 톤으로 구분 */
+main button[value="delete"],
+main button[value="delete_post"],
+main button[value="delete_comment"] {
+    background: #e05a5a;
+    border-color: #e05a5a;
+}
+
+main button[value="delete"]:hover,
+main button[value="delete_post"]:hover,
+main button[value="delete_comment"]:hover {
+    background: #c94444;
+}
+
+/* =========================================================
+   진료과 관리 (admin_department*.html) - 전용 스타일
+   ========================================================= */
+
+/* 공통 아이콘 톤 (이모지 크기/정렬 보정) */
+.dept-icon {
+    display: inline-block;
+    line-height: 1;
+    vertical-align: -1px;
+}
+
+/* 페이지 상단 헤더: 제목 + 우측 액션(등록 버튼/배지) */
+.dept-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #2b6cb0;
+}
+
+.dept-page-title {
+    font-size: 22px;
+    color: #1a365d;
+    margin: 0;
+}
+
+/* 등록 버튼: 페이지 우측 상단에 눈에 띄게 */
+.dept-add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #2b6cb0;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.dept-add-btn:hover {
+    background: #1a4e8a;
+}
+
+/* 목록 상단 툴바: 검색창 + 드래그 안내 */
+.dept-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.dept-search-box {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    border: 1px solid #ccd3db;
+    border-radius: 6px;
+    padding: 6px 12px;
+    min-width: 260px;
+}
+
+.dept-search-icon {
+    opacity: 0.6;
+}
+
+.dept-search-box input {
+    border: none;
+    outline: none;
+    font-size: 13px;
+    flex: 1;
+}
+
+.dept-toolbar-hint {
+    font-size: 12px;
+    color: #8a93a3;
+    margin: 0;
+}
+
+.dept-empty-msg {
+    color: #888;
+    font-size: 13px;
+    padding: 16px;
+    text-align: center;
+    background: #f8fafc;
+    border: 1px dashed #dfe3e8;
+    border-radius: 6px;
+}
+
+/* 드래그 핸들 + 순서 셀 */
+.dept-drag-handle {
+    text-align: center;
+    color: #b6bec9;
+    cursor: grab;
+    user-select: none;
+}
+
+.dept-row[draggable="true"] {
+    cursor: default;
+}
+
+.dept-row-dragging {
+    opacity: 0.4;
+    background: #eaf1fb;
+}
+
+.dept-order-cell {
+    text-align: center;
+    color: #8a93a3;
+    font-weight: 600;
+}
+
+.dept-name-link {
+    font-weight: 700;
+    color: #2b6cb0;
+    text-decoration: none;
+}
+
+.dept-name-link:hover {
+    text-decoration: underline;
+}
+
+/* 소개 칸이 너무 길어지지 않도록 말줄임 처리 */
+.dept-desc-cell {
+    max-width: 360px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #555;
+}
+
+/* 노출 상태 배지 */
+.dept-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dept-badge-lg {
+    padding: 5px 14px;
+    font-size: 13px;
+    border-radius: 14px;
+}
+
+.dept-badge-active {
+    background: #e6f4ea;
+    color: #1e7a34;
+}
+
+.dept-badge-inactive {
+    background: #f1f2f4;
+    color: #767c85;
+}
+
+/* 상세 페이지 - 이미지 + 정보 카드 */
+.dept-detail-card {
+    display: flex;
+    gap: 24px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.dept-detail-image {
+    flex: 0 0 200px;
+}
+
+.dept-detail-image img {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    border: 1px solid #dfe3e8;
+    border-radius: 8px;
+    padding: 10px;
+    background: #fff;
+}
+
+.dept-image-placeholder {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 1px dashed #dfe3e8;
+    border-radius: 8px;
+    background: #fff;
+    color: #aab2bd;
+    font-size: 22px;
+    text-align: center;
+}
+
+.dept-image-placeholder p {
+    font-size: 12px;
+    color: #aab2bd;
+    margin: 0;
+}
+
+.dept-detail-info {
+    flex: 1;
+    min-width: 220px;
+}
+
+.dept-detail-list dt {
+    font-size: 12px;
+    color: #8a93a3;
+    font-weight: 700;
+    margin-top: 12px;
+}
+
+.dept-detail-list dt:first-child {
+    margin-top: 0;
+}
+
+.dept-detail-list dd {
+    margin: 4px 0 0 0;
+    font-size: 14px;
+    color: #222;
+}
+
+/* 상세 페이지 하단 액션 버튼 */
+.dept-detail-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.dept-btn-outline {
+    background: #fff;
+    color: #2b6cb0;
+    border: 1px solid #2b6cb0;
+}
+
+.dept-btn-outline:hover {
+    background: #eaf1fb;
+}
+
+/* 삭제 막힘 사유 안내 */
+.dept-block-reason {
+    background: #fff7e6;
+    border: 1px solid #f0d78c;
+    color: #7a5b12;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 13px;
+    margin-top: 12px;
+}
+
+.dept-block-reason a {
+    color: #2b6cb0;
+    font-weight: 600;
+}
+
+/* 삭제 확인 모달 */
+.dept-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(20, 30, 45, 0.45);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.dept-modal-box {
+    background: #fff;
+    border-radius: 8px;
+    padding: 22px 24px;
+    max-width: 360px;
+    width: 90%;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.dept-modal-box p {
+    margin: 0 0 8px 0;
+}
+
+.dept-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+#dept-delete-cancel {
+    background: #fff;
+    color: #333;
+    border-color: #ccd3db;
+}
+
+/* =========================================================
+   공지사항 관리 (admin_notice*.html) - 전용 스타일
+   진료과 관리 스타일(.dept-*)과 동일한 톤으로 맞췄습니다.
+   ========================================================= */
+
+.notice-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #2b6cb0;
+}
+
+.notice-page-title {
+    font-size: 22px;
+    color: #1a365d;
+    margin: 0;
+}
+
+.notice-add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #2b6cb0;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.notice-add-btn:hover {
+    background: #1a4e8a;
+}
+
+.notice-toolbar-hint {
+    font-size: 12px;
+    color: #8a93a3;
+    margin: 0 0 10px 0;
+}
+
+.notice-empty-msg {
+    color: #888;
+    font-size: 13px;
+    padding: 16px;
+    text-align: center;
+}
+
+.notice-title-link {
+    font-weight: 700;
+    color: #2b6cb0;
+    text-decoration: none;
+}
+
+.notice-title-link:hover {
+    text-decoration: underline;
+}
+
+/* 구분 배지 (일반/긴급) */
+.notice-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.notice-badge-lg {
+    padding: 5px 14px;
+    font-size: 13px;
+    border-radius: 14px;
+}
+
+.notice-badge-normal {
+    background: #eaf1fb;
+    color: #2b6cb0;
+}
+
+.notice-badge-urgent {
+    background: #fdeaea;
+    color: #c73838;
+}
+
+/* 라디오 버튼(구분 선택) 간격 */
+.notice-radio-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-right: 16px;
+    font-weight: normal;
+}
+
+/* 상세 페이지 카드 */
+.notice-detail-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.notice-detail-list dt {
+    font-size: 12px;
+    color: #8a93a3;
+    font-weight: 700;
+    margin-top: 12px;
+}
+
+.notice-detail-list dt:first-child {
+    margin-top: 0;
+}
+
+.notice-detail-list dd {
+    margin: 4px 0 0 0;
+    font-size: 14px;
+    color: #222;
+}
+
+.notice-detail-content {
+    white-space: pre-wrap;
+    line-height: 1.6;
+    background: #fff;
+    border: 1px solid #dfe3e8;
+    border-radius: 6px;
+    padding: 14px;
+    margin-top: 6px !important;
+}
+
+.notice-detail-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.notice-btn-outline {
+    background: #fff;
+    color: #2b6cb0;
+    border: 1px solid #2b6cb0;
+}
+
+.notice-btn-outline:hover {
+    background: #eaf1fb;
+}
+
+#notice-delete-btn {
+    background: #e05a5a;
+    border-color: #e05a5a;
+}
+
+#notice-delete-btn:hover {
+    background: #c94444;
+}
+
+/* 삭제 확인 모달 */
+.notice-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(20, 30, 45, 0.45);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.notice-modal-box {
+    background: #fff;
+    border-radius: 8px;
+    padding: 22px 24px;
+    max-width: 360px;
+    width: 90%;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.notice-modal-box p {
+    margin: 0 0 8px 0;
+}
+
+.notice-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+#notice-delete-cancel {
+    background: #fff;
+    color: #333;
+    border-color: #ccd3db;
+}
+
+#dept-delete-cancel:hover {
+    background: #f0f2f4;
+}
+
+#dept-delete-btn,
+#dept-delete-confirm {
+    background: #e05a5a;
+    border-color: #e05a5a;
+}
+
+#dept-delete-btn:hover,
+#dept-delete-confirm:hover {
+    background: #c94444;
+}
+
+/* 대시보드(admin.html) 요약 현황 표는 가운데 정렬 + 큰 글씨 */
+main table tr:first-child th {
+    text-align: center;
+}
+
+/* 대시보드 관리 메뉴 카드형 표 */
+main table td a {
+    font-size: 15px;
+    font-weight: 700;
+    color: #2b6cb0;
+    text-decoration: none;
+}
+
+main table td a:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,61 @@
+{% extends "admin_base.html" %}
+{% block title %}{{ notice.title }} 상세{% endblock %}
+
+{% block content %}
+<div class="notice-page-header">
+    <h2 class="notice-page-title">{{ notice.title }}</h2>
+    {% if notice.notice_type == '긴급' %}
+        <span class="notice-badge notice-badge-urgent notice-badge-lg">긴급</span>
+    {% else %}
+        <span class="notice-badge notice-badge-normal notice-badge-lg">일반</span>
+    {% endif %}
+</div>
+
+<div class="notice-detail-card">
+    <dl class="notice-detail-list">
+        <dt>등록일</dt>
+        <dd>{{ notice.created_at }}</dd>
+
+        <dt>조회수</dt>
+        <dd>{{ notice.view_count }}</dd>
+
+        <dt>내용</dt>
+        <dd class="notice-detail-content">{{ notice.content }}</dd>
+    </dl>
+</div>
+
+<hr>
+
+<div class="notice-detail-actions">
+    <a href="{{ url_for('admin.admin_notice') }}">
+        <button type="button" class="notice-btn-outline">📋 목록</button>
+    </a>
+
+    <a href="{{ url_for('admin.admin_notice_edit', notice_id=notice.notice_id) }}">
+        <button type="button" class="notice-btn-outline">✏️ 수정</button>
+    </a>
+
+    <button type="button" id="notice-delete-btn">🗑️ 삭제</button>
+</div>
+
+<!-- 실제 삭제를 전송하는 폼. 화면에는 안 보이고, 아래 모달에서 '삭제' 확정을 누르면 JS로 제출됩니다. -->
+<form id="notice-delete-form" method="post" action="{{ url_for('admin.admin_notice_detail', notice_id=notice.notice_id) }}" style="display:none;">
+    <input type="hidden" name="action" value="delete">
+</form>
+
+<!-- 삭제 확인 모달 -->
+<div id="notice-delete-modal" class="notice-modal-overlay" style="display:none;">
+    <div class="notice-modal-box">
+        <p><strong>'{{ notice.title }}'</strong> 공지사항을 정말 삭제하시겠습니까?</p>
+        <p style="color:#888; font-size:12px;">삭제하면 되돌릴 수 없습니다.</p>
+        <div class="notice-modal-actions">
+            <button type="button" id="notice-delete-cancel">취소</button>
+            <button type="button" id="notice-delete-confirm">삭제</button>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/admin_notice_detail.js') }}"></script>
+{% endblock %}
+{% endblock %}

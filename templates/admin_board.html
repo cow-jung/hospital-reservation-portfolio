@@ -1,0 +1,46 @@
+{% extends "admin_base.html" %}
+{% block title %}게시판관리{% endblock %}
+
+
+{% block content %}
+<h2>게시판관리</h2>
+<p>부적절한 게시글을 확인하고 삭제할 수 있습니다. 댓글은 게시글 상세보기에서 확인하세요.</p>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>조회수</th>
+            <th>작성일</th>
+            <th>관리</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for post in posts %}
+        <tr>
+            <td>{{ post.board_id }}</td>
+            <td>
+                <a href="{{ url_for('board.board_view', board_id=post.board_id) }}">{{ post.title }}</a>
+            </td>
+            <td>{{ post.name }}</td>
+            <td>{{ post.view_count }}</td>
+            <td>{{ post.created_at }}</td>
+            <td>
+                <form method="post" action="{{ url_for('admin.admin_board') }}" style="display:inline;"
+                      onsubmit="return confirm('이 게시글을 삭제하시겠습니까?');">
+                    <input type="hidden" name="action" value="delete_post">
+                    <input type="hidden" name="board_id" value="{{ post.board_id }}">
+                    <button type="submit">삭제</button>
+                </form>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="6">등록된 게시글이 없습니다.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

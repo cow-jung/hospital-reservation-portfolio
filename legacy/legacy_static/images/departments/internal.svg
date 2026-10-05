@@ -1,0 +1,10 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="80" cy="80" r="70" fill="#eaf3fb"/>
+  <circle cx="80" cy="80" r="70" fill="none" stroke="#0b6fb8" stroke-width="3"/>
+  <path d="M55 42 v28 a25 25 0 0 0 50 0 v-28" fill="none" stroke="#0b6fb8" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="55" cy="38" r="7" fill="#0b6fb8"/>
+  <circle cx="105" cy="38" r="7" fill="#0b6fb8"/>
+  <line x1="80" y1="95" x2="80" y2="108" stroke="#0b6fb8" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="80" cy="116" r="10" fill="none" stroke="#0b6fb8" stroke-width="6"/>
+  <text x="80" y="140" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#0b4f8a" text-anchor="middle">내과</text>
+</svg>

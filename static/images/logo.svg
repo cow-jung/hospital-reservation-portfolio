@@ -1,0 +1,7 @@
+<svg viewBox="0 0 420 120" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="60" cy="60" r="52" fill="#0b6fb8"/>
+  <rect x="46" y="30" width="28" height="60" rx="6" fill="#ffffff"/>
+  <rect x="30" y="46" width="60" height="28" rx="6" fill="#ffffff"/>
+  <text x="130" y="52" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#0b4f8a">병원예약시스템</text>
+  <text x="130" y="80" font-family="Arial, sans-serif" font-size="15" fill="#4a7ca8">Hospital Reservation System</text>
+</svg>

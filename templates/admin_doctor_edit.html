@@ -1,0 +1,74 @@
+{% extends "admin_base.html" %}
+{% block title %}{{ doctor.doctor_name }} 수정{% endblock %}
+
+{% block content %}
+<h2>의료진 수정 - {{ doctor.doctor_name }}</h2>
+
+<p><a href="{{ url_for('admin.admin_doctor_detail', doctor_id=doctor.doctor_id) }}">&larr; 상세로 돌아가기</a></p>
+
+<form method="post" action="{{ url_for('admin.admin_doctor_edit', doctor_id=doctor.doctor_id) }}" enctype="multipart/form-data">
+    <div>
+        <label for="dept_id">소속 진료과</label>
+        <select id="dept_id" name="dept_id" required>
+            {% for dept in departments %}
+                <option value="{{ dept.dept_id }}" {% if dept.dept_id == doctor.dept_id %}selected{% endif %}>
+                    {{ dept.dept_name }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+    <br>
+
+    <div>
+        <label for="doctor_name">의료진명</label>
+        <input type="text" id="doctor_name" name="doctor_name" value="{{ doctor.doctor_name }}" required>
+    </div>
+    <br>
+
+    <div>
+        <label for="specialty">전문분야</label>
+        <input type="text" id="specialty" name="specialty" value="{{ doctor.specialty or '' }}">
+    </div>
+    <br>
+
+    <div>
+        <label for="profile">약력</label><br>
+        <textarea id="profile" name="profile" rows="4" cols="60">{{ doctor.profile or '' }}</textarea>
+    </div>
+    <br>
+
+    <div>
+        <label>현재 사진</label><br>
+        {% if doctor.photo %}
+            <img src="{{ url_for('static', filename=doctor.photo) }}" alt="{{ doctor.doctor_name }}"
+                 style="width:80px; height:80px; object-fit:contain; border:1px solid #dfe3e8; border-radius:6px; padding:6px; background:#fff;"
+                 onerror="this.style.display='none';">
+        {% else %}
+            <span style="color:#999;">등록된 사진 없음</span>
+        {% endif %}
+    </div>
+    <br>
+
+    <div>
+        <label for="photo_file">프로필 사진 교체</label>
+        <input type="file" id="photo_file" name="photo_file" accept="image/*">
+        <p style="font-size:12px; color:#888; margin:4px 0 0 0;">비워두면 기존 사진이 그대로 유지됩니다.</p>
+    </div>
+    <br>
+
+    <div>
+        <label for="photo">또는 이미지 경로 직접 입력</label>
+        <input type="text" id="photo" name="photo" value="{{ doctor.photo or '' }}"
+               placeholder="예: images/doctors/avatar1.svg">
+    </div>
+    <br>
+
+    <div>
+        <label for="work_hours">진료시간</label>
+        <input type="text" id="work_hours" name="work_hours" value="{{ doctor.work_hours or '' }}">
+    </div>
+    <br>
+
+    <button type="submit">수정 저장</button>
+</form>
+{% endblock %}

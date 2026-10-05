@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}회원정보 수정{% endblock %}
+
+{% block content %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/mypage_edit.css') }}"
+>
+
+<div class="mypage-edit-container">
+
+    <h2>회원정보 수정</h2>
+
+
+    <form
+        method="POST"
+        action="{{ url_for('reservation.mypage_edit') }}"
+    >
+
+        <!-- 이름 -->
+        <div>
+            <label for="name">
+                이름
+            </label>
+
+            <input
+                type="text"
+                id="name"
+                name="name"
+                value="{{ user.name }}"
+                required
+            >
+        </div>
+
+
+        <!-- 전화번호 -->
+        <div>
+            <label for="phone">
+                전화번호
+            </label>
+
+            <input
+                type="text"
+                id="phone"
+                name="phone"
+                value="{{ user.phone or '' }}"
+            >
+        </div>
+
+
+        <!-- 이메일 -->
+        <div>
+            <label for="email">
+                이메일
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                name="email"
+                value="{{ user.email or '' }}"
+            >
+        </div>
+
+
+        <!-- 새 비밀번호 -->
+        <div>
+
+            <label for="new_password">
+                새 비밀번호
+            </label>
+
+            <input
+                type="password"
+                id="new_password"
+                name="new_password"
+                placeholder="변경하지 않으려면 비워두세요"
+            >
+
+            <p class="password-guide">
+                ※ 비밀번호는 8자 이상이며, 영문자, 숫자,
+                특수문자를 각각 1개 이상 포함해야 합니다.
+            </p>
+
+            <p
+                id="password_error"
+                class="input-error"
+            ></p>
+
+        </div>
+
+
+        <!-- 비밀번호 확인 -->
+        <div>
+
+            <label for="new_password_confirm">
+                새 비밀번호 확인
+            </label>
+
+            <input
+                type="password"
+                id="new_password_confirm"
+                name="new_password_confirm"
+            >
+
+            <p
+                id="password_confirm_error"
+                class="input-error"
+            ></p>
+
+        </div>
+
+
+        <button type="submit">
+            수정 완료
+        </button>
+
+
+        <a href="{{ url_for('reservation.mypage') }}">
+            취소
+        </a>
+
+    </form>
+
+</div>
+
+
+<script
+    src="{{ url_for('static', filename='js/mypage_edit.js') }}"
+></script>
+
+{% endblock %}

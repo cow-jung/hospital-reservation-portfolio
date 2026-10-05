@@ -1,0 +1,193 @@
+.reservation-edit-page {
+    width: 100%;
+    max-width: 850px;
+
+    margin: 40px auto;
+    padding: 30px;
+
+    box-sizing: border-box;
+}
+
+
+/* 현재 예약 */
+.current-reservation {
+    margin-bottom: 30px;
+
+    padding: 20px;
+
+    background-color: #f7f9fc;
+
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+}
+
+
+/* 달력 */
+.calendar-container {
+    max-width: 500px;
+
+    margin-top: 30px;
+}
+
+
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.calendar-header button {
+    width: 40px;
+    height: 35px;
+
+    cursor: pointer;
+}
+
+
+.reservation-calendar {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    text-align: center;
+}
+
+
+.reservation-calendar th,
+.reservation-calendar td {
+    width: 14.28%;
+
+    padding: 5px;
+}
+
+
+/* 날짜 */
+.calendar-date {
+    width: 40px;
+    height: 40px;
+
+    border: 1px solid #cccccc;
+
+    background-color: white;
+
+    cursor: pointer;
+}
+
+
+.calendar-date:hover:not(:disabled) {
+    background-color: #edf5ff;
+}
+
+
+.calendar-date.selected {
+    background-color: #0b4da2;
+
+    color: white;
+}
+
+
+.calendar-date.unavailable {
+    background-color: #eeeeee;
+
+    color: #bbbbbb;
+
+    cursor: not-allowed;
+}
+
+
+/* 선택 날짜 */
+.selected-date {
+    margin-top: 20px;
+
+    font-weight: 600;
+}
+
+
+/* 시간 */
+.reservation-time-area {
+    margin-top: 30px;
+}
+
+
+#time_buttons {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-top: 15px;
+}
+
+
+.time-button {
+    padding: 10px 16px;
+
+    border: 1px solid #0b4da2;
+    border-radius: 5px;
+
+    background-color: white;
+
+    color: #0b4da2;
+
+    cursor: pointer;
+}
+
+
+.time-button:hover:not(:disabled) {
+    background-color: #edf5ff;
+}
+
+
+.time-button.selected {
+    background-color: #0b4da2;
+
+    color: white;
+}
+
+
+.time-button.unavailable {
+    border-color: #cccccc;
+
+    background-color: #eeeeee;
+
+    color: #999999;
+
+    cursor: not-allowed;
+}
+
+
+/* 하단 버튼 */
+.edit-actions {
+    margin-top: 35px;
+}
+
+
+.edit-save-button {
+    padding: 11px 22px;
+
+    border: none;
+    border-radius: 5px;
+
+    background-color: #0b4da2;
+
+    color: white;
+
+    cursor: pointer;
+}
+
+
+.edit-cancel-button {
+    display: inline-block;
+
+    margin-left: 8px;
+
+    padding: 10px 22px;
+
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+
+    color: #333333;
+
+    text-decoration: none;
+}

@@ -1,0 +1,119 @@
+<!-- base.html의 뼈대를 가져와서 사용합니다 -->
+{% extends "base.html" %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/temp_board.css') }}">
+
+<div class="board-view-container">
+    <h2>게시글 상세 보기</h2>
+
+    <table border="1">
+        <tr>
+            <th>제목</th>
+            <td colspan="3">{{ post.title }}</td>
+        </tr>
+        <tr>
+            <th>작성자</th>
+            <td>{{ post.name }}</td>
+            <th>조회수</th>
+            <td>{{ post.view_count }}</td>
+        </tr>
+        <tr>
+            <th>작성일</th>
+            <td colspan="3">{{ post.created_at }}</td>
+        </tr>
+        <tr>
+            <td colspan="4" class="content-cell">
+                {{ post.content }}
+            </td>
+        </tr>
+    </table>
+
+    <!-- 2. 게시글 수정/삭제 버튼 -->
+    {% if session.user_id == post.user_id %}
+    <div class="action-container">
+        <a href="/board/edit/{{ post.board_id }}" class="no-underline">
+            <button type="button">수정하기</button>
+        </a>
+
+        <form action="/board/view/{{ post.board_id }}" method="POST" class="inline-form" onsubmit="return confirm('이 게시글을 정말 삭제하시겠습니까?');">
+            <input type="hidden" name="action" value="delete">
+            <button type="submit" class="btn-delete">삭제하기</button>
+        </form>
+    </div>
+    {% endif %}
+
+    <hr>
+
+    <!-- 3. 댓글 목록 -->
+    <h3>댓글</h3>
+    <ul>
+        {% for comment in comments %}
+        <li>
+            <strong>{{ comment.name }}</strong>
+            <span>({{ comment.created_at }})</span>
+
+            <!-- ▼▼▼ 댓글 수정/삭제 버튼 추가 부분 ▼▼▼ -->
+
+            <!-- 1) 댓글 수정 버튼 (본인만) -->
+            {% if session.user_id == comment.user_id %}
+            <button type="button" class="inline-form" onclick="document.getElementById('edit-comment-{{ comment.comment_id }}').style.display='block';">수정하기</button>
+            {% endif %}
+
+            <!-- 2) 댓글 삭제 폼 (본인 '또는' 관리자) -->
+            {% if session.user_id == comment.user_id or session.role == 'admin' %}
+            <form class="delete-comment-form inline-form" action="/board/view/{{ post.board_id }}" method="POST" onsubmit="return confirm('댓글을 삭제하시겠습니까?');">
+                <input type="hidden" name="action" value="delete_comment">
+                <input type="hidden" name="comment_id" value="{{ comment.comment_id }}">
+                <button type="submit" class="btn-delete">삭제하기</button>
+            </form>
+            {% endif %}
+
+            <!-- 3) 숨겨진 댓글 수정 폼 (본인만) -->
+            {% if session.user_id == comment.user_id %}
+            <form id="edit-comment-{{ comment.comment_id }}" class="hidden-form" action="/board/view/{{ post.board_id }}" method="POST">
+                <input type="hidden" name="action" value="edit_comment">
+                <input type="hidden" name="comment_id" value="{{ comment.comment_id }}">
+                <input type="text" name="content" value="{{ comment.content }}" class="comment-input-wide" required>
+                <button type="submit">저장</button>
+                <button type="button" onclick="document.getElementById('edit-comment-{{ comment.comment_id }}').style.display='none';">취소</button>
+            </form>
+            {% endif %}
+
+            <!-- ▲▲▲ 여기까지 ▲▲▲ -->
+
+            <br>
+            <div>{{ comment.content }}</div>
+        </li>
+        {% else %}
+        <li>아직 작성된 댓글이 없습니다.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- 4. 새 댓글 작성 폼 -->
+    {% if session.user_id %}
+    <div style="margin-top: 15px;">
+        <form action="/board/view/{{ post.board_id }}" method="POST">
+            <input type="hidden" name="action" value="comment">
+            <input type="text" name="content" placeholder="댓글을 남겨보세요" required class="comment-input-wide">
+            <button type="submit">댓글 등록</button>
+        </form>
+    </div>
+    {% endif %}
+
+    <!-- 5. 하단 이동 버튼 영역 -->
+    <div class="center-align bottom-btn-container">
+        {% if session.role == 'admin' %}
+            <a href="/admin/board" class="no-underline btn-mr-5">
+                <button type="button">관리자 페이지로 이동 (게시판 관리)</button>
+            </a>
+        {% endif %}
+
+        <a href="/board" class="no-underline">
+            <button type="button">목록으로 돌아가기</button>
+        </a>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "admin_base.html" %}
+{% block title %}의료진 등록{% endblock %}
+
+{% block content %}
+<h2>의료진 등록</h2>
+
+<p><a href="{{ url_for('admin.admin_doctor') }}">&larr; 의료진 목록으로 돌아가기</a></p>
+
+<form method="post" action="{{ url_for('admin.admin_doctor_create') }}" enctype="multipart/form-data">
+    <div>
+        <label for="dept_id">소속 진료과</label>
+        <select id="dept_id" name="dept_id" required>
+            {% for dept in departments %}
+                <option value="{{ dept.dept_id }}">{{ dept.dept_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <br>
+
+    <div>
+        <label for="doctor_name">의료진명</label>
+        <input type="text" id="doctor_name" name="doctor_name" required>
+    </div>
+    <br>
+
+    <div>
+        <label for="specialty">전문분야</label>
+        <input type="text" id="specialty" name="specialty">
+    </div>
+    <br>
+
+    <div>
+        <label for="profile">약력</label><br>
+        <textarea id="profile" name="profile" rows="4" cols="60"></textarea>
+    </div>
+    <br>
+
+    <div>
+        <label for="photo_file">프로필 사진 업로드</label>
+        <input type="file" id="photo_file" name="photo_file" accept="image/*">
+    </div>
+    <br>
+
+    <div>
+        <label for="photo">또는 이미지 경로 직접 입력</label>
+        <input type="text" id="photo" name="photo" placeholder="예: images/doctors/avatar1.svg">
+        <p style="font-size:12px; color:#888; margin:4px 0 0 0;">파일을 업로드하면 이 값은 무시됩니다.</p>
+    </div>
+    <br>
+
+    <div>
+        <label for="work_hours">진료시간</label>
+        <input type="text" id="work_hours" name="work_hours" placeholder="예: 평일 09:00~18:00">
+    </div>
+    <br>
+
+    <button type="submit">등록</button>
+</form>
+{% endblock %}

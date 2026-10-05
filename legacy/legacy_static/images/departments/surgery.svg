@@ -1,0 +1,8 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="80" cy="80" r="70" fill="#eaf3fb"/>
+  <circle cx="80" cy="80" r="70" fill="none" stroke="#0b6fb8" stroke-width="3"/>
+  <rect x="48" y="40" width="64" height="64" rx="13" fill="#ffffff" stroke="#0b6fb8" stroke-width="4"/>
+  <rect x="72" y="52" width="16" height="40" rx="4" fill="#0b6fb8"/>
+  <rect x="60" y="64" width="40" height="16" rx="4" fill="#0b6fb8"/>
+  <text x="80" y="128" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#0b4f8a" text-anchor="middle">외과</text>
+</svg>

@@ -1,0 +1,137 @@
+/* =====================================================================
+   병원소개 이미지 슬라이드
+   ===================================================================== */
+
+
+/* 슬라이드 전체 영역 */
+.hospital-slider {
+    width: 100%;
+    max-width: 1000px;
+    margin: 30px auto;
+}
+
+
+/* 이미지 영역 */
+.slider-container {
+    position: relative;
+
+    width: 100%;
+    height: 500px;
+
+    overflow: hidden;
+
+    border-radius: 15px;
+}
+
+
+/* 모든 슬라이드 이미지 */
+.hospital-slide {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    /* 기본적으로 숨김 */
+    opacity: 0;
+
+    /* 부드럽게 넘어가는 효과 */
+    transition: opacity 0.7s ease;
+}
+
+
+/* 현재 보여주는 이미지 */
+.hospital-slide.active {
+    opacity: 1;
+}
+
+
+/* =====================================================================
+   이전 / 다음 버튼
+   ===================================================================== */
+
+.slide-button {
+    position: absolute;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 45px;
+    height: 45px;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: rgba(0, 0, 0, 0.35);
+
+    color: white;
+
+    font-size: 24px;
+
+    cursor: pointer;
+
+    z-index: 10;
+}
+
+
+/* 이전 버튼 */
+.slide-prev {
+    left: 60px;
+}
+
+
+/* 다음 버튼 */
+.slide-next {
+    right: 60px;
+}
+
+
+/* 마우스를 올렸을 때 */
+.slide-button:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+
+/* =====================================================================
+   하단 점
+   ===================================================================== */
+
+.slide-dots {
+    text-align: center;
+
+    margin-top: 12px;
+}
+
+
+.slide-dot {
+    width: 10px;
+    height: 10px;
+
+    margin: 0 4px;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: #cccccc;
+
+    cursor: pointer;
+}
+
+
+/* 현재 이미지 위치 */
+.slide-dot.active {
+    background-color: #286ca8;
+}
+
+/* 운영시간 표 글자 가운데 정렬 */
+.hospital-hours th,
+.hospital-hours td {
+    text-align: center;
+}

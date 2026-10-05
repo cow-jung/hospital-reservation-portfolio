@@ -1,0 +1,508 @@
+{% extends "base.html" %}
+
+{% block title %}마이페이지{% endblock %}
+
+{% block content %}
+
+<!-- 마이페이지 전용 CSS -->
+<link
+    rel="stylesheet"
+    href="{{ url_for(
+        'static',
+        filename='css/mypage.css'
+    ) }}"
+>
+
+
+<!-- =====================================================================
+     마이페이지
+     ===================================================================== -->
+
+<div class="mypage-container">
+
+
+    <!-- =================================================================
+         페이지 제목
+         ================================================================= -->
+
+    <h2 class="mypage-title">
+        마이페이지
+    </h2>
+
+
+
+    <!-- =================================================================
+         내 정보
+         ================================================================= -->
+
+    <section class="mypage-profile">
+
+        <h3>
+            내 정보
+        </h3>
+
+
+        <!-- 처음에는 이름만 표시 -->
+        <div class="profile-summary">
+
+            <p>
+                <strong>이름 :</strong>
+                {{ user.name }}
+            </p>
+
+        </div>
+
+
+        <!-- 내 정보 관리 버튼 -->
+        <div class="mypage-buttons">
+
+
+            <!-- 정보 수정 -->
+            <a
+                href="{{ url_for(
+                    'reservation.mypage_edit'
+                ) }}"
+                class="mypage-button"
+            >
+                정보 수정
+            </a>
+
+
+            <!-- 회원 탈퇴 팝업 열기 -->
+            <button
+                type="button"
+                id="withdraw_open_button"
+                class="mypage-button withdraw-button"
+            >
+                회원 탈퇴
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <hr>
+
+
+
+    <!-- =================================================================
+         진료 / 예약 이력
+         ================================================================= -->
+
+    <section class="mypage-history">
+
+        <h3>
+            진료 / 예약 이력
+        </h3>
+
+
+        {% if treatment_history %}
+
+
+            {% for item in treatment_history %}
+
+
+                <div class="history-item">
+
+
+                    <!-- 진료과 -->
+                    <p>
+                        <strong>진료과 :</strong>
+                        {{ item.dept_name }}
+                    </p>
+
+
+                    <!-- 의료진 -->
+                    <p>
+                        <strong>의료진 :</strong>
+                        {{ item.doctor_name }}
+                    </p>
+
+
+                    <!-- 예약 날짜 -->
+                    <p>
+                        <strong>예약 날짜 :</strong>
+                        {{ item.reservation_date }}
+                    </p>
+
+
+                    <!-- 예약 시간 -->
+                    <p>
+                        <strong>예약 시간 :</strong>
+
+                        {% if item.reservation_time %}
+
+                            {{ item.reservation_time|string|truncate(5, True, '') }}
+
+                        {% endif %}
+                    </p>
+
+
+                    <!-- 상태 -->
+                    <p>
+                        <strong>상태 :</strong>
+                        {{ item.status }}
+                    </p>
+
+
+
+                    <!-- =================================================
+                         예약 변경 / 취소
+                         ================================================= -->
+
+                    <div class="mypage-reservation-actions">
+
+
+                        <!-- ---------------------------------------------
+                             예약 상태가 대기인 경우
+                             --------------------------------------------- -->
+
+                        {% if item.status == '대기' %}
+
+
+                            <!-- 예약 변경 -->
+                            <a
+                                href="{{ url_for(
+                                    'reservation.reservation_edit',
+                                    reservation_id=item.reservation_id
+                                ) }}"
+                                class="reservation-edit-button"
+                            >
+                                예약 변경
+                            </a>
+
+
+                            <!-- 예약 취소 -->
+                            <button
+                                type="button"
+                                class="reservation-cancel-button"
+                                data-reservation-id="{{ item.reservation_id }}"
+                            >
+                                예약 취소
+                            </button>
+
+
+
+                        <!-- ---------------------------------------------
+                             예약 상태가 확정인 경우
+                             --------------------------------------------- -->
+
+                        {% elif item.status == '확정' %}
+
+
+                            <!-- 예약 변경 불가 -->
+                            <button
+                                type="button"
+                                class="reservation-edit-button disabled"
+                                disabled
+                            >
+                                예약 변경
+                            </button>
+
+
+                            <!-- 예약 취소 -->
+                            <button
+                                type="button"
+                                class="reservation-cancel-button"
+                                data-reservation-id="{{ item.reservation_id }}"
+                            >
+                                예약 취소
+                            </button>
+
+
+                            <!-- 안내 문구 -->
+                            <p class="confirmed-guide">
+                                ※ 예약이 확정된 후 변경을 원하시면 병원으로 문의해주세요.
+                            </p>
+
+
+
+                        <!-- ---------------------------------------------
+                             취소된 예약
+                             --------------------------------------------- -->
+
+                        {% elif item.status == '취소' %}
+
+
+                            <span class="cancelled-text">
+                                취소된 예약입니다.
+                            </span>
+
+
+                            {% if item.cancel_reason %}
+
+                                <p class="cancel-reason">
+                                    취소 사유 :
+                                    {{ item.cancel_reason }}
+                                </p>
+
+                            {% endif %}
+
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+            {% endfor %}
+
+
+        {% else %}
+
+            <p class="empty-message">
+                진료 / 예약 이력이 없습니다.
+            </p>
+
+        {% endif %}
+
+    </section>
+
+</div>
+
+
+
+<!-- =====================================================================
+     회원 탈퇴 팝업
+     ===================================================================== -->
+
+<div
+    id="withdraw_modal"
+    class="withdraw-modal"
+>
+
+    <div class="withdraw-modal-content">
+
+
+        <!-- 닫기 버튼 -->
+        <button
+            type="button"
+            id="withdraw_close_button"
+            class="modal-close"
+        >
+            ×
+        </button>
+
+
+        <h3>
+            회원 탈퇴
+        </h3>
+
+
+        <p>
+            탈퇴 사유를 선택해주세요.
+        </p>
+
+
+        <form
+            method="POST"
+            action="{{ url_for(
+                'reservation.mypage_withdraw'
+            ) }}"
+        >
+
+
+            <!-- 탈퇴 사유 -->
+            <select
+                id="withdraw_reason"
+                name="withdraw_reason"
+                required
+            >
+
+                <option value="">
+                    탈퇴 사유를 선택해주세요.
+                </option>
+
+                <option value="서비스 이용이 불편함">
+                    서비스 이용이 불편함
+                </option>
+
+                <option value="원하는 기능이 부족함">
+                    원하는 기능이 부족함
+                </option>
+
+                <option value="병원을 더 이상 이용하지 않음">
+                    병원을 더 이상 이용하지 않음
+                </option>
+
+                <option value="개인정보가 걱정됨">
+                    개인정보가 걱정됨
+                </option>
+
+                <option value="직접 입력">
+                    직접 입력
+                </option>
+
+            </select>
+
+
+            <!-- 직접 입력 -->
+            <textarea
+                id="withdraw_reason_direct"
+                name="withdraw_reason_direct"
+                rows="4"
+                placeholder="탈퇴 사유를 입력해주세요."
+                style="display: none;"
+            ></textarea>
+
+
+            <div class="withdraw-modal-buttons">
+
+
+                <!-- 취소 -->
+                <button
+                    type="button"
+                    id="withdraw_cancel_button"
+                >
+                    취소
+                </button>
+
+
+                <!-- 회원 탈퇴 -->
+                <button
+                    type="submit"
+                    class="withdraw-confirm-button"
+                    onclick="return confirm('정말 회원 탈퇴하시겠습니까?');"
+                >
+                    회원 탈퇴
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================================
+     예약 취소 팝업
+     ===================================================================== -->
+
+<div
+    id="reservation_cancel_modal"
+    class="cancel-modal"
+>
+
+    <div class="cancel-modal-content">
+
+
+        <!-- 닫기 버튼 -->
+        <button
+            type="button"
+            id="cancel_modal_close"
+            class="modal-close"
+        >
+            ×
+        </button>
+
+
+        <h3>
+            예약 취소
+        </h3>
+
+
+        <p>
+            예약 취소 사유를 선택해주세요.
+        </p>
+
+
+        <form
+            id="reservation_cancel_form"
+            method="POST"
+        >
+
+
+            <!-- 예약 취소 사유 -->
+            <select
+                id="cancel_reason"
+                name="cancel_reason"
+                required
+            >
+
+                <option value="">
+                    취소 사유를 선택해주세요.
+                </option>
+
+                <option value="일정 변경">
+                    일정 변경
+                </option>
+
+                <option value="증상이 호전됨">
+                    증상이 호전됨
+                </option>
+
+                <option value="다른 병원 이용">
+                    다른 병원 이용
+                </option>
+
+                <option value="예약을 잘못 신청함">
+                    예약을 잘못 신청함
+                </option>
+
+                <option value="개인 사정">
+                    개인 사정
+                </option>
+
+                <option value="직접 입력">
+                    직접 입력
+                </option>
+
+            </select>
+
+
+            <!-- 직접 입력 -->
+            <textarea
+                id="cancel_reason_direct"
+                name="cancel_reason_direct"
+                rows="4"
+                placeholder="취소 사유를 입력해주세요."
+                style="display: none;"
+            ></textarea>
+
+
+            <div class="cancel-modal-buttons">
+
+
+                <!-- 닫기 -->
+                <button
+                    type="button"
+                    id="cancel_modal_cancel"
+                >
+                    닫기
+                </button>
+
+
+                <!-- 실제 취소 -->
+                <button
+                    type="submit"
+                    class="cancel-confirm-button"
+                >
+                    예약 취소
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- 마이페이지 JavaScript -->
+<script
+    src="{{ url_for(
+        'static',
+        filename='js/mypage.js'
+    ) }}"
+></script>
+
+
+{% endblock %}

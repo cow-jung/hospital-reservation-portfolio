@@ -1,0 +1,658 @@
+/* =====================================================================
+   전체 예약 페이지
+   ===================================================================== */
+
+.reservation-page {
+    width: 100%;
+    max-width: 1000px;
+
+    margin: 40px auto;
+    padding: 30px;
+
+    box-sizing: border-box;
+}
+
+
+.reservation-page-title {
+    margin-bottom: 35px;
+}
+
+
+.reservation-page-title h2 {
+    margin: 0 0 10px;
+
+    font-size: 32px;
+}
+
+
+.reservation-page-title p {
+    margin: 0;
+
+    color: #666;
+}
+
+
+
+/* =====================================================================
+   예약 영역
+   ===================================================================== */
+
+.reservation-section {
+    margin-bottom: 45px;
+
+    padding: 30px;
+
+    border: 1px solid #dce2e9;
+    border-radius: 10px;
+
+    background: #fff;
+}
+
+
+.section-title {
+    margin-top: 0;
+
+    font-size: 24px;
+}
+
+
+.section-guide {
+    margin-bottom: 25px;
+
+    color: #666;
+
+    font-size: 14px;
+}
+
+
+
+/* =====================================================================
+   입력
+   ===================================================================== */
+
+.form-group {
+    margin-bottom: 22px;
+}
+
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-weight: 600;
+}
+
+
+.form-group select,
+.form-group textarea {
+    width: 100%;
+
+    padding: 11px 12px;
+
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+    box-sizing: border-box;
+
+    font-size: 15px;
+}
+
+
+.form-group textarea {
+    resize: vertical;
+}
+
+
+.symptom-group {
+    margin-top: 30px;
+}
+
+
+
+/* =====================================================================
+   달력
+   ===================================================================== */
+
+.reservation-calendar-area {
+    margin-top: 35px;
+}
+
+
+.calendar-container {
+    width: 100%;
+    max-width: 580px;
+
+    margin-top: 15px;
+
+    padding: 20px;
+
+    border: 1px solid #dce2e9;
+    border-radius: 10px;
+
+    background: #fafbfd;
+
+    box-sizing: border-box;
+}
+
+
+
+/* 달력 상단 */
+.calendar-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 15px;
+}
+
+
+.calendar-header h3 {
+    margin: 0;
+
+    font-size: 20px;
+}
+
+
+
+/* 이전 다음 */
+.month-button {
+    width: 40px;
+    height: 40px;
+
+    border: 1px solid #ccd4df;
+    border-radius: 50%;
+
+    background: white;
+
+    color: #0b4da2;
+
+    font-size: 18px;
+
+    cursor: pointer;
+}
+
+
+.month-button:hover {
+    background: #edf5ff;
+}
+
+
+
+/* =====================================================================
+   달력 표
+   ===================================================================== */
+
+.reservation-calendar {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    table-layout: fixed;
+
+    text-align: center;
+}
+
+
+.reservation-calendar th {
+    padding: 10px 0;
+
+    font-size: 14px;
+}
+
+
+.reservation-calendar td {
+    height: 48px;
+
+    padding: 3px;
+}
+
+
+
+/* 일요일 제목 */
+.sunday-header {
+    color: #e53935;
+}
+
+
+/* 토요일 제목 */
+.saturday-header {
+    color: #2962c7;
+}
+
+
+
+/* =====================================================================
+   날짜 버튼
+   ===================================================================== */
+
+.calendar-date {
+    width: 40px;
+    height: 40px;
+
+    border: 1px solid #d5dbe3;
+    border-radius: 50%;
+
+    background: white;
+
+    color: #222;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+
+/* 평일 hover */
+.calendar-date:hover:not(:disabled) {
+    border-color: #0b4da2;
+
+    background: #edf5ff;
+}
+
+
+
+/* 선택 */
+.calendar-date.selected {
+    border-color: #0b4da2;
+
+    background: #0b4da2;
+
+    color: white !important;
+}
+
+
+
+/* =====================================================================
+   일요일
+   ===================================================================== */
+
+.calendar-date.sunday {
+    color: #e53935;
+}
+
+
+/* =====================================================================
+   공휴일
+   ===================================================================== */
+
+.calendar-date.holiday {
+    color: #e53935;
+
+    background: #fff5f5;
+}
+
+
+
+/* =====================================================================
+   토요일
+   ===================================================================== */
+
+.calendar-date.saturday {
+    color: #2962c7;
+}
+
+
+.calendar-date.saturday:hover:not(:disabled) {
+    border-color: #2962c7;
+
+    background: #eef4ff;
+}
+
+
+.calendar-date.saturday.selected {
+    background: #2962c7;
+
+    border-color: #2962c7;
+
+    color: white !important;
+}
+
+
+
+/* =====================================================================
+   예약 불가 날짜
+   ===================================================================== */
+
+.calendar-date.unavailable {
+    cursor: not-allowed;
+}
+
+
+/* 과거 일반 날짜 */
+.calendar-date.unavailable:not(.sunday):not(.holiday) {
+    background: #f1f1f1;
+
+    color: #bbb;
+
+    border-color: #eee;
+}
+
+
+/* 일요일 */
+.calendar-date.sunday:disabled {
+    background: #fff4f4;
+
+    color: #e57373;
+
+    border-color: #ffdada;
+}
+
+
+/* 공휴일 */
+.calendar-date.holiday:disabled {
+    background: #fff4f4;
+
+    color: #e57373;
+
+    border-color: #ffdada;
+}
+
+
+
+/* =====================================================================
+   선택 정보
+   ===================================================================== */
+
+.selected-info {
+    margin-top: 15px;
+
+    color: #333;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+
+
+/* =====================================================================
+   시간
+   ===================================================================== */
+
+.reservation-time-area {
+    margin-top: 30px;
+}
+
+
+.time-buttons {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-top: 15px;
+}
+
+
+.time-button {
+    min-width: 85px;
+
+    padding: 10px 14px;
+
+    border: 1px solid #0b4da2;
+    border-radius: 5px;
+
+    background: white;
+
+    color: #0b4da2;
+
+    cursor: pointer;
+}
+
+
+.time-button:hover:not(:disabled) {
+    background: #edf5ff;
+}
+
+
+.time-button.selected {
+    background: #0b4da2;
+
+    color: white;
+}
+
+
+.time-button.unavailable {
+    border-color: #ddd;
+
+    background: #eee;
+
+    color: #999;
+
+    cursor: not-allowed;
+}
+
+
+
+/* =====================================================================
+   안내
+   ===================================================================== */
+
+.no-time-message,
+.closed-message {
+    margin: 10px 0;
+
+    color: #777;
+
+    font-size: 14px;
+}
+
+
+.closed-message {
+    color: #d64545;
+}
+
+
+
+/* =====================================================================
+   예약 버튼
+   ===================================================================== */
+
+.reservation-submit-button {
+    margin-top: 30px;
+
+    padding: 12px 28px;
+
+    border: none;
+    border-radius: 5px;
+
+    background: #0b4da2;
+
+    color: white;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.reservation-submit-button:hover {
+    background: #083b7d;
+}
+
+
+
+/* =====================================================================
+   과거 예약
+   ===================================================================== */
+
+.history-list {
+    display: grid;
+
+    gap: 15px;
+}
+
+
+.history-card {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 25px;
+
+    padding: 20px;
+
+    border: 1px solid #dce2e9;
+    border-radius: 8px;
+
+    background: #f8fafc;
+}
+
+
+.history-info p {
+    margin: 6px 0;
+}
+
+
+.history-rebook-button {
+    flex-shrink: 0;
+
+    padding: 10px 18px;
+
+    border: 1px solid #0b4da2;
+    border-radius: 5px;
+
+    background: white;
+
+    color: #0b4da2;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.history-rebook-button:hover {
+    background: #edf5ff;
+}
+
+
+
+/* =====================================================================
+   재예약 선택창
+   ===================================================================== */
+
+.rebook-panel {
+    margin-top: 30px;
+
+    padding: 25px;
+
+    border: 2px solid #d7e5f6;
+    border-radius: 10px;
+
+    background: #f8fbff;
+}
+
+
+.selected-history {
+    margin-bottom: 25px;
+
+    padding: 15px 18px;
+
+    border-radius: 6px;
+
+    background: white;
+}
+
+
+
+/* =====================================================================
+   예약변경 현재 정보
+   ===================================================================== */
+
+.current-reservation-info {
+    margin-bottom: 30px;
+
+    padding: 20px;
+
+    border-radius: 8px;
+
+    background: #f7f9fc;
+}
+
+
+.current-reservation-info h3 {
+    margin-top: 0;
+}
+
+
+.current-reservation-info p {
+    margin: 8px 0;
+}
+
+
+
+/* =====================================================================
+   확정 예약 변경불가
+   ===================================================================== */
+
+.confirmed-notice {
+    margin-top: 25px;
+
+    padding: 18px;
+
+    border: 1px solid #ffd5d5;
+    border-radius: 6px;
+
+    background: #fff7f7;
+}
+
+
+.confirmed-notice p {
+    margin: 0 0 6px;
+
+    color: #d64545;
+
+    font-weight: 600;
+}
+
+
+.confirmed-notice small {
+    color: #777;
+}
+
+
+
+/* =====================================================================
+   모바일
+   ===================================================================== */
+
+@media (max-width: 700px) {
+
+    .reservation-page {
+        padding: 15px;
+    }
+
+
+    .reservation-section {
+        padding: 20px 15px;
+    }
+
+
+    .calendar-container {
+        padding: 12px;
+    }
+
+
+    .calendar-date {
+        width: 34px;
+        height: 34px;
+    }
+
+
+    .history-card {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+
+    .history-rebook-button {
+        width: 100%;
+    }
+}

@@ -1,0 +1,11 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="80" cy="80" r="70" fill="#eaf3fb"/>
+  <circle cx="80" cy="80" r="70" fill="none" stroke="#0b6fb8" stroke-width="3"/>
+  <circle cx="58" cy="44" r="11" fill="#0b6fb8"/>
+  <circle cx="102" cy="44" r="11" fill="#0b6fb8"/>
+  <circle cx="80" cy="68" r="32" fill="#0b6fb8"/>
+  <circle cx="70" cy="64" r="5" fill="#eaf3fb"/>
+  <circle cx="90" cy="64" r="5" fill="#eaf3fb"/>
+  <ellipse cx="80" cy="78" rx="8" ry="5" fill="#eaf3fb"/>
+  <text x="80" y="130" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#0b4f8a" text-anchor="middle">소아과</text>
+</svg>

@@ -1,0 +1,81 @@
+{% extends "admin_base.html" %}
+{% block title %}{{ doctor.doctor_name }} 상세{% endblock %}
+
+{% block content %}
+<h2>의료진 상세 - {{ doctor.doctor_name }}</h2>
+
+<table border="1" style="max-width:500px;">
+    <tbody>
+        <tr>
+            <th style="width:120px;">의료진명</th>
+            <td>{{ doctor.doctor_name }}</td>
+        </tr>
+        <tr>
+            <th>소속 진료과</th>
+            <td>{{ doctor.dept_name }}</td>
+        </tr>
+        <tr>
+            <th>전문분야</th>
+            <td>{{ doctor.specialty or '' }}</td>
+        </tr>
+        <tr>
+            <th>진료시간</th>
+            <td>{{ doctor.work_hours or '' }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>프로필 사진</h3>
+<div style="margin-bottom:16px;">
+    {% if doctor.photo %}
+        <img src="{{ url_for('static', filename=doctor.photo) }}" alt="{{ doctor.doctor_name }}"
+             style="width:140px; height:140px; object-fit:contain; border:1px solid #dfe3e8; border-radius:6px; padding:8px; background:#fff;"
+             onerror="this.style.display='none'; document.getElementById('img-missing').style.display='block';">
+        <p id="img-missing" style="display:none; color:#c94444;">
+            등록된 경로({{ doctor.photo }})에서 이미지를 찾을 수 없습니다.
+        </p>
+    {% else %}
+        <p style="color:#999;">등록된 사진이 없습니다.</p>
+    {% endif %}
+</div>
+
+<h3>약력</h3>
+<div style="white-space:pre-wrap; word-break:break-word; background:#f8fafc; border:1px solid #e2e8f0;
+            border-radius:6px; padding:12px 14px; margin-bottom:16px; max-width:700px;">
+{%- if doctor.profile -%}
+{{ doctor.profile }}
+{%- else -%}
+등록된 약력이 없습니다.
+{%- endif -%}
+</div>
+
+<h3>예약 현황</h3>
+<p>이 의료진에게 걸린 예약: {{ reservation_count }}건</p>
+{% if reservation_count > 0 %}
+    <p style="color:#c94444;">
+        예약이 있어 삭제할 수 없습니다. 먼저 <a href="{{ url_for('admin.admin_reservation') }}">예약관리</a>에서 처리해주세요.
+    </p>
+{% endif %}
+
+<hr>
+
+<div style="display:flex; gap:8px; align-items:center;">
+    <a href="{{ url_for('admin.admin_doctor') }}">
+        <button type="button">목록</button>
+    </a>
+
+    <a href="{{ url_for('admin.admin_doctor_edit', doctor_id=doctor.doctor_id) }}">
+        <button type="button">수정</button>
+    </a>
+
+    {% if reservation_count > 0 %}
+        <button type="button" disabled>삭제</button>
+    {% else %}
+        <form method="post" action="{{ url_for('admin.admin_doctor_detail', doctor_id=doctor.doctor_id) }}"
+              onsubmit="return confirm('정말 삭제하시겠습니까?');">
+            <input type="hidden" name="action" value="delete">
+            <button type="submit" name="action" value="delete">삭제</button>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

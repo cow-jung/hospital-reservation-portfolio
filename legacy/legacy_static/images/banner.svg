@@ -1,0 +1,38 @@
+<svg viewBox="0 0 1200 360" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b6fb8"/>
+      <stop offset="100%" stop-color="#3f9de0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="360" fill="url(#skyGrad)"/>
+
+  <circle cx="1080" cy="70" r="120" fill="#ffffff" opacity="0.08"/>
+  <circle cx="120" cy="300" r="160" fill="#ffffff" opacity="0.06"/>
+
+  <!-- 병원 건물 실루엣 (오른쪽으로 이동) -->
+  <rect x="620" y="140" width="340" height="200" rx="10" fill="#ffffff"/>
+  <rect x="660" y="100" width="120" height="60" rx="8" fill="#ffffff"/>
+
+  <g fill="#a9d3f2">
+    <rect x="650" y="170" width="34" height="34" rx="4"/>
+    <rect x="710" y="170" width="34" height="34" rx="4"/>
+    <rect x="770" y="170" width="34" height="34" rx="4"/>
+    <rect x="830" y="170" width="34" height="34" rx="4"/>
+    <rect x="890" y="170" width="34" height="34" rx="4"/>
+    <rect x="650" y="230" width="34" height="34" rx="4"/>
+    <rect x="710" y="230" width="34" height="34" rx="4"/>
+    <rect x="830" y="230" width="34" height="34" rx="4"/>
+    <rect x="890" y="230" width="34" height="34" rx="4"/>
+  </g>
+
+  <rect x="765" y="280" width="50" height="60" rx="4" fill="#0b6fb8"/>
+
+  <rect x="708" y="110" width="14" height="34" rx="3" fill="#e05a5a"/>
+  <rect x="698" y="120" width="34" height="14" rx="3" fill="#e05a5a"/>
+
+  <!-- 문구 (건물과 겹치지 않도록 왼쪽 폭 제한) -->
+  <text x="70" y="150" font-family="Arial, sans-serif" font-size="40" font-weight="700" fill="#ffffff">병원예약시스템</text>
+  <text x="70" y="190" font-family="Arial, sans-serif" font-size="18" fill="#eaf3fb">진료 예약부터 마이페이지까지</text>
+  <text x="70" y="216" font-family="Arial, sans-serif" font-size="18" fill="#eaf3fb">한 곳에서 간편하게</text>
+</svg>

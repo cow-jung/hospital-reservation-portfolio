@@ -1,0 +1,6 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="80" cy="80" r="70" fill="#eaf3fb"/>
+  <circle cx="80" cy="80" r="70" fill="none" stroke="#0b6fb8" stroke-width="3"/>
+  <path d="M80 38 c-16 0 -23 11 -23 25 c0 18 7 39 14 39 c5 0 5 -14 9 -14 c4 0 4 14 9 14 c7 0 14 -21 14 -39 c0 -14 -7 -25 -23 -25 Z" fill="#0b6fb8"/>
+  <text x="80" y="128" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#0b4f8a" text-anchor="middle">치과</text>
+</svg>

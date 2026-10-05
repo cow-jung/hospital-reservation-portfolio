@@ -1,0 +1,50 @@
+<!-- base.html의 뼈대를 가져와서 사용합니다 -->
+{% extends "base.html" %}
+
+{% block content %}
+<!-- 나중에 디자인할 때 이 줄만 삭제하면 됩니다! -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/temp_board.css') }}">
+
+<div class="board-write-container">
+    <h2>게시글 작성하기</h2>
+    
+    <form action="/board/write" method="POST">
+
+        <table>
+            <tr>
+                <th>제목</th>
+                <td>
+                    <input type="text" name="title" placeholder="게시글 제목을 입력하세요" required>
+                </td>
+            </tr>
+
+            <!-- 비밀글 설정 옵션 -->
+            <tr>
+                <th>옵션</th>
+                <td>
+                    <label class="pointer-label">
+                        <input type="checkbox" name="is_secret" value="1"> 관리자와 작성자만 볼 수 있도록 비밀글로 설정합니다.
+                    </label>
+                </td>
+            </tr>
+
+            <tr>
+                <th>내용</th>
+                <td>
+                    <textarea name="content" rows="12" placeholder="문의하실 내용을 자세히 적어주세요." required></textarea>
+                </td>
+            </tr>
+        </table>
+
+        <!-- 하단 버튼 영역 (상세 보기와 동일한 스타일 적용) -->
+        <div style="margin-top: 20px;">
+            <button type="submit">등록하기</button>
+
+            <a href="/board" class="no-underline" style="margin-left: 5px;">
+                <button type="button">취소하기</button>
+            </a>
+        </div>
+        
+    </form>
+</div>
+{% endblock %}

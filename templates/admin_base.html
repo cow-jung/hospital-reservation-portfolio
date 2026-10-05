@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}관리자{% endblock %} - 병원예약시스템</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_common.css') }}">
+</head>
+<body>
+
+    <header>
+        <h1><a href="{{ url_for('admin.admin') }}">병원예약시스템 - 관리자</a></h1>
+        <nav>
+            <a href="{{ url_for('admin.admin') }}">대시보드</a>
+            <a href="{{ url_for('admin.admin_department') }}">진료과관리</a>
+            <a href="{{ url_for('admin.admin_doctor') }}">의료진관리</a>
+            <a href="{{ url_for('admin.admin_user') }}">회원관리</a>
+            <a href="{{ url_for('admin.admin_reservation') }}">예약관리</a>
+            <a href="{{ url_for('admin.admin_board') }}">게시판관리</a>
+            <a href="{{ url_for('admin.admin_notice') }}">공지사항관리</a>
+            <a href="{{ url_for('admin.admin_security') }}">보안관제</a>
+            <a href="{{ url_for('index') }}">사이트로 이동</a>
+            <a href="{{ url_for('auth.logout') }}">로그아웃</a>
+        </nav>
+    </header>
+
+    <main>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flash-messages">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 병원예약시스템 관리자</p>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,416 @@
+{% extends "base.html" %}
+
+{% block title %}의료진 조회{% endblock %}
+
+{% block content %}
+
+<!-- =====================================================================
+     의료진 조회
+
+     기능
+     1. 전체 의료진 조회
+     2. 의료진명 검색
+     3. 초성 필터
+     4. 소속 진료과 / 전문분야 / 진료시간 표시
+     5. 의료진 사진 표시
+     6. 예약하기
+     7. 예약 페이지 이동 시 진료과 + 의료진 자동 선택
+     ===================================================================== -->
+
+
+<link
+    rel="stylesheet"
+    href="{{ url_for(
+        'static',
+        filename='css/doctor.css'
+    ) }}"
+>
+
+
+<div class="doctor-page">
+
+
+    <!-- =====================================================
+         페이지 제목
+         ===================================================== -->
+
+    <div class="doctor-title">
+
+        <h1>
+            의료진
+        </h1>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         의료진 검색
+         ===================================================== -->
+
+    <div class="doctor-search">
+
+        <span class="doctor-search-label">
+            🔍 검색
+        </span>
+
+
+        <input
+            type="text"
+            id="doctor_search"
+            placeholder="의료진명을 입력하세요"
+        >
+
+
+        <button
+            type="button"
+            id="doctor_search_button"
+        >
+            검색하기
+        </button>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         초성 필터
+         ===================================================== -->
+
+    <div class="doctor-filter">
+
+        <button
+            type="button"
+            class="doctor-filter-button active"
+            data-filter="전체"
+        >
+            전체
+        </button>
+
+
+        <button
+            type="button"
+            class="doctor-filter-button"
+            data-filter="ㄱ"
+        >
+            ㄱ
+        </button>
+
+
+        <button
+            type="button"
+            class="doctor-filter-button"
+            data-filter="ㄴ"
+        >
+            ㄴ
+        </button>
+
+
+        <button
+            type="button"
+            class="doctor-filter-button"
+            data-filter="ㄷ"
+        >
+            ㄷ
+        </button>
+
+
+        <button
+            type="button"
+            class="doctor-filter-button"
+            data-filter="ㄹ"
+        >
+            ㄹ
+        </button>
+
+
+        <button
+            type="button"
+            class="doctor-filter-button"
+            data-filter="ㅁ"
+        >
+            ㅁ
+        </button>
+
+
+        <button
+            type="button"
+            class="doctor-filter-button"
+            data-filter="ㅂ"
+        >
+            ㅂ
+        </button>
+
+
+        <button
+            type="button"
+            class="doctor-filter-button"
+            data-filter="ㅅ"
+        >
+            ㅅ
+        </button>
+
+
+        <button
+            type="button"
+            class="doctor-filter-button"
+            data-filter="ㅇ"
+        >
+            ㅇ
+        </button>
+
+
+        <button
+            type="button"
+            class="doctor-filter-button"
+            data-filter="ㅈ"
+        >
+            ㅈ
+        </button>
+
+
+        <button
+            type="button"
+            class="doctor-filter-button"
+            data-filter="ㅊ"
+        >
+            ㅊ
+        </button>
+
+
+        <button
+            type="button"
+            class="doctor-filter-button"
+            data-filter="ㅋ"
+        >
+            ㅋ
+        </button>
+
+
+        <button
+            type="button"
+            class="doctor-filter-button"
+            data-filter="ㅌ"
+        >
+            ㅌ
+        </button>
+
+
+        <button
+            type="button"
+            class="doctor-filter-button"
+            data-filter="ㅍ"
+        >
+            ㅍ
+        </button>
+
+
+        <button
+            type="button"
+            class="doctor-filter-button"
+            data-filter="ㅎ"
+        >
+            ㅎ
+        </button>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         의료진 목록
+         ===================================================== -->
+
+    <div
+        class="doctor-list"
+        id="doctor_list"
+    >
+
+        {% if doctors %}
+
+
+            {% for doctor in doctors %}
+
+
+                <div
+                    class="doctor-card"
+                    data-name="{{ doctor.doctor_name }}"
+                >
+
+
+                    <!-- =============================================
+                         의료진 사진
+                         ============================================= -->
+
+                    <div class="doctor-photo">
+
+
+                        {% if doctor.photo %}
+
+                            <!-- DB에 사진이 등록되어 있는 경우 -->
+
+                            <img
+                                src="{{ url_for(
+                                    'static',
+                                    filename=doctor.photo
+                                ) }}"
+                                alt="{{ doctor.doctor_name }}"
+                            >
+
+
+                        {% else %}
+
+                            <!-- 사진이 없는 경우 기본 이미지 -->
+
+                            <img
+                                src="{{ url_for(
+                                    'static',
+                                    filename='images/doctors/default_doctor.jpg'
+                                ) }}"
+                                alt="{{ doctor.doctor_name }}"
+                            >
+
+                        {% endif %}
+
+
+                    </div>
+
+
+
+                    <!-- =============================================
+                         의료진 정보
+                         ============================================= -->
+
+                    <div class="doctor-info">
+
+
+                        <!-- 의료진명 -->
+
+                        <h3>
+                            {{ doctor.doctor_name }}
+                        </h3>
+
+
+
+                        <!-- 진료과 -->
+
+                        <p>
+
+                            <strong>
+                                진료과
+                            </strong>
+
+                            <br>
+
+                            {{ doctor.dept_name }}
+
+                        </p>
+
+
+
+                        <!-- 전문분야 -->
+
+                        <p>
+
+                            <strong>
+                                전문분야
+                            </strong>
+
+                            <br>
+
+                            {{ doctor.specialty or '정보 없음' }}
+
+                        </p>
+
+
+
+                        <!-- 진료시간 -->
+
+                        <p>
+
+                            <strong>
+                                진료시간
+                            </strong>
+
+                            <br>
+
+                            {{ doctor.work_hours or '정보 없음' }}
+
+                        </p>
+
+
+
+                        <!-- =========================================
+                             예약하기
+
+                             진료과 + 의료진 ID 전달
+
+                             예:
+                             /reservation?dept_id=2&doctor_id=5
+                             ========================================= -->
+
+                        <a
+                            href="{{ url_for(
+                                'reservation.reservation',
+                                dept_id=doctor.dept_id,
+                                doctor_id=doctor.doctor_id
+                            ) }}"
+                            class="doctor-reservation-button"
+                        >
+                            예약하기
+                        </a>
+
+
+                    </div>
+
+
+                </div>
+
+
+            {% endfor %}
+
+
+        {% else %}
+
+
+            <p class="doctor-no-data">
+                등록된 의료진이 없습니다.
+            </p>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         검색 결과 없음
+         ===================================================== -->
+
+    <div
+        id="doctor_empty"
+        class="doctor-empty"
+    >
+        검색된 의료진이 없습니다.
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     의료진 검색 / 초성 필터 JS
+     ========================================================= -->
+
+<script
+    src="{{ url_for(
+        'static',
+        filename='js/doctor.js'
+    ) }}"
+></script>
+
+
+{% endblock %}

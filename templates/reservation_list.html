@@ -1,0 +1,302 @@
+{% extends "base.html" %}
+
+{% block title %}예약 내역{% endblock %}
+
+{% block content %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for(
+        'static',
+        filename='css/reservation_list.css'
+    ) }}"
+>
+
+
+<div class="reservation-list-page">
+
+    <h2>예약 내역</h2>
+
+    <p class="reservation-guide">
+        신청한 예약을 확인하고 예약을 변경하거나 취소할 수 있습니다.
+    </p>
+
+
+    {% if reservations %}
+
+        {% for reservation in reservations %}
+
+            <div class="reservation-card">
+
+                <h3>
+                    예약번호 {{ reservation.reservation_id }}
+                </h3>
+
+
+                <p>
+                    <strong>진료과 :</strong>
+                    {{ reservation.dept_name }}
+                </p>
+
+
+                <p>
+                    <strong>의료진 :</strong>
+                    {{ reservation.doctor_name }}
+                </p>
+
+
+                <p>
+                    <strong>예약 날짜 :</strong>
+                    {{ reservation.reservation_date }}
+                </p>
+
+
+                <p>
+                    <strong>예약 시간 :</strong>
+
+                    {% if reservation.reservation_time %}
+
+                        {{ reservation.reservation_time|string|truncate(5, True, '') }}
+
+                    {% endif %}
+                </p>
+
+
+                <p>
+                    <strong>증상 / 메모 :</strong>
+                    {{ reservation.memo or '없음' }}
+                </p>
+
+
+                <p>
+                    <strong>예약 상태 :</strong>
+
+                    <span class="reservation-status">
+                        {{ reservation.status }}
+                    </span>
+                </p>
+
+
+
+                <!-- =================================================
+                     예약 관리
+                     ================================================= -->
+
+                <div class="reservation-actions">
+
+
+                    <!-- ---------------------------------------------
+                         대기 상태
+                         --------------------------------------------- -->
+
+                    {% if reservation.status == '대기' %}
+
+                        <!-- 예약 변경 -->
+                        <a
+                            href="{{ url_for(
+                                'reservation.reservation_edit',
+                                reservation_id=reservation.reservation_id
+                            ) }}"
+                            class="reservation-edit-button"
+                        >
+                            예약 변경
+                        </a>
+
+
+                        <!-- 예약 취소 -->
+                        <button
+                            type="button"
+                            class="reservation-cancel-button"
+                            data-reservation-id="{{ reservation.reservation_id }}"
+                        >
+                            예약 취소
+                        </button>
+
+
+                    <!-- ---------------------------------------------
+                         확정 상태
+                         --------------------------------------------- -->
+
+                    {% elif reservation.status == '확정' %}
+
+                        <!-- 변경 불가 -->
+                        <button
+                            type="button"
+                            class="reservation-edit-button disabled"
+                            disabled
+                        >
+                            예약 변경
+                        </button>
+
+
+                        <!-- 예약 취소는 가능 -->
+                        <button
+                            type="button"
+                            class="reservation-cancel-button"
+                            data-reservation-id="{{ reservation.reservation_id }}"
+                        >
+                            예약 취소
+                        </button>
+
+
+                        <p class="confirmed-guide">
+                            ※ 예약이 확정된 후 변경을 원하시면
+                            병원으로 문의해주세요.
+                        </p>
+
+
+                    <!-- ---------------------------------------------
+                         취소 상태
+                         --------------------------------------------- -->
+
+                    {% elif reservation.status == '취소' %}
+
+                        <p class="cancelled-text">
+                            취소된 예약입니다.
+                        </p>
+
+
+                        {% if reservation.cancel_reason %}
+
+                            <p class="cancel-reason">
+                                취소 사유 :
+                                {{ reservation.cancel_reason }}
+                            </p>
+
+                        {% endif %}
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+
+    {% else %}
+
+        <p class="empty-message">
+            예약 내역이 없습니다.
+        </p>
+
+    {% endif %}
+
+</div>
+
+
+
+<!-- =================================================================
+     예약 취소 팝업
+     ================================================================= -->
+
+<div
+    id="reservation_cancel_modal"
+    class="cancel-modal"
+>
+
+    <div class="cancel-modal-content">
+
+        <button
+            type="button"
+            id="cancel_modal_close"
+            class="modal-close"
+        >
+            ×
+        </button>
+
+
+        <h3>예약 취소</h3>
+
+
+        <p>
+            예약 취소 사유를 선택해주세요.
+        </p>
+
+
+        <form
+            id="reservation_cancel_form"
+            method="POST"
+        >
+
+            <select
+                id="cancel_reason"
+                name="cancel_reason"
+                required
+            >
+
+                <option value="">
+                    취소 사유를 선택해주세요.
+                </option>
+
+                <option value="일정 변경">
+                    일정 변경
+                </option>
+
+                <option value="증상이 호전됨">
+                    증상이 호전됨
+                </option>
+
+                <option value="다른 병원 이용">
+                    다른 병원 이용
+                </option>
+
+                <option value="예약을 잘못 신청함">
+                    예약을 잘못 신청함
+                </option>
+
+                <option value="개인 사정">
+                    개인 사정
+                </option>
+
+                <option value="직접 입력">
+                    직접 입력
+                </option>
+
+            </select>
+
+
+            <textarea
+                id="cancel_reason_direct"
+                name="cancel_reason_direct"
+                rows="4"
+                placeholder="취소 사유를 입력해주세요."
+                style="display: none;"
+            ></textarea>
+
+
+            <div class="cancel-modal-buttons">
+
+                <button
+                    type="button"
+                    id="cancel_modal_cancel"
+                >
+                    닫기
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="cancel-confirm-button"
+                >
+                    예약 취소
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script
+    src="{{ url_for(
+        'static',
+        filename='js/reservation_list.js'
+    ) }}"
+></script>
+
+
+{% endblock %}

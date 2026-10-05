@@ -1,0 +1,115 @@
+{% extends "admin_base.html" %}
+{% block title %}{{ dept.dept_name }} 상세{% endblock %}
+
+{% block content %}
+<div class="dept-page-header">
+    <h2 class="dept-page-title">{{ dept.dept_name }}</h2>
+    {% if dept.is_active %}
+        <span class="dept-badge dept-badge-active dept-badge-lg">노출중</span>
+    {% else %}
+        <span class="dept-badge dept-badge-inactive dept-badge-lg">숨김</span>
+    {% endif %}
+</div>
+
+<div class="dept-detail-card">
+    <div class="dept-detail-image">
+        {% if dept.dept_image %}
+            <img src="{{ url_for('static', filename=dept.dept_image) }}" alt="{{ dept.dept_name }}"
+                 onerror="this.style.display='none'; document.getElementById('img-missing').style.display='flex';">
+            <div id="img-missing" class="dept-image-placeholder" style="display:none;">
+                <span class="dept-icon">🖼️</span>
+                <p>등록된 경로({{ dept.dept_image }})에서<br>이미지를 찾을 수 없습니다.</p>
+            </div>
+        {% else %}
+            <div class="dept-image-placeholder">
+                <span class="dept-icon">🖼️</span>
+                <p>등록된 이미지가 없습니다.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="dept-detail-info">
+        <dl class="dept-detail-list">
+            <dt>소개</dt>
+            <dd style="white-space:pre-wrap;">{{ dept.dept_description or '등록된 소개가 없습니다.' }}</dd>
+
+            <dt>표시 순서</dt>
+            <dd>{{ dept.display_order }}번째</dd>
+        </dl>
+    </div>
+</div>
+
+<h3><span class="dept-icon">👥</span> 소속 의료진 ({{ doctors|length }}명)</h3>
+{% if doctors %}
+    <table border="1" style="max-width:500px;">
+        <thead>
+            <tr>
+                <th>의료진명</th>
+                <th>전문분야</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for doc in doctors %}
+            <tr>
+                <td>{{ doc.doctor_name }}</td>
+                <td>{{ doc.specialty or '' }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p style="color:#999;">소속된 의료진이 없습니다.</p>
+{% endif %}
+
+<hr>
+
+<div class="dept-detail-actions">
+    <a href="{{ url_for('admin.admin_department') }}">
+        <button type="button" class="dept-btn-outline"><span class="dept-icon">📋</span> 목록</button>
+    </a>
+
+    <a href="{{ url_for('admin.admin_department_edit', dept_id=dept.dept_id) }}">
+        <button type="button" class="dept-btn-outline"><span class="dept-icon">✏️</span> 수정</button>
+    </a>
+
+    {% if doctors %}
+        <button type="button" disabled title="소속된 의료진이 있어 삭제할 수 없습니다">
+            <span class="dept-icon">🗑️</span> 삭제
+        </button>
+    {% else %}
+        <button type="button" id="dept-delete-btn">
+            <span class="dept-icon">🗑️</span> 삭제
+        </button>
+    {% endif %}
+</div>
+
+{% if doctors %}
+    <p class="dept-block-reason">
+        <span class="dept-icon">⚠️</span>
+        이 진료과에 소속된 의료진이 <strong>{{ doctors|length }}명</strong> 있어 삭제할 수 없습니다.
+        <a href="{{ url_for('admin.admin_doctor', dept_id=dept.dept_id) }}">소속 의료진 보기 &rarr;</a>
+        에서 먼저 다른 진료과로 옮기거나 삭제해주세요.
+    </p>
+{% endif %}
+
+<!-- 실제 삭제를 전송하는 폼. 화면에는 안 보이고, 아래 모달에서 '삭제' 확정을 누르면 JS로 제출됩니다. -->
+<form id="dept-delete-form" method="post" action="{{ url_for('admin.admin_department_detail', dept_id=dept.dept_id) }}" style="display:none;">
+    <input type="hidden" name="action" value="delete">
+</form>
+
+<!-- 삭제 확인 모달 -->
+<div id="dept-delete-modal" class="dept-modal-overlay" style="display:none;">
+    <div class="dept-modal-box">
+        <p><strong>'{{ dept.dept_name }}'</strong> 진료과를 정말 삭제하시겠습니까?</p>
+        <p style="color:#888; font-size:12px;">삭제하면 되돌릴 수 없습니다.</p>
+        <div class="dept-modal-actions">
+            <button type="button" id="dept-delete-cancel">취소</button>
+            <button type="button" id="dept-delete-confirm">삭제</button>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/admin_department_detail.js') }}"></script>
+{% endblock %}
+{% endblock %}

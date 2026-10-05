@@ -1,0 +1,444 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ department.dept_name }}
+{% endblock %}
+
+
+{% block content %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for(
+        'static',
+        filename='css/department_detail.css'
+    ) }}"
+>
+
+
+<div class="department-detail-page">
+
+
+    <!-- =========================================================
+         페이지 제목
+         ========================================================= -->
+
+    <div class="department-detail-title">
+
+        <h1>
+            {{ department.dept_name }}
+        </h1>
+
+    </div>
+
+
+
+    <!-- =========================================================
+         탭
+         ========================================================= -->
+
+    <div class="department-tabs">
+
+        <button
+            type="button"
+            class="department-tab active"
+            data-tab="intro"
+        >
+            소개
+        </button>
+
+
+        <button
+            type="button"
+            class="department-tab"
+            data-tab="doctors"
+        >
+            의료진
+        </button>
+
+
+        <button
+            type="button"
+            class="department-tab"
+            data-tab="schedule"
+        >
+            진료시간표
+        </button>
+
+    </div>
+
+
+
+    <!-- =========================================================
+         1. 소개
+         ========================================================= -->
+
+    <section
+        id="intro"
+        class="department-tab-content active"
+    >
+
+        <div class="department-intro">
+
+
+            <!-- 진료과 설명 -->
+            <div class="department-intro-text">
+
+                <h2>
+                    {{ department.dept_name }}
+                </h2>
+
+
+                <p>
+                    {{ department.dept_description
+                       or '진료과 소개 정보가 없습니다.' }}
+                </p>
+
+            </div>
+
+
+
+            <!-- =============================================
+                 진료과 실제 사진
+                 ============================================= -->
+
+            <div class="department-image">
+
+                {% if department.dept_image %}
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename='images/departments/' + department.dept_image
+                        ) }}"
+                        alt="{{ department.dept_name }}"
+                    >
+
+                {% else %}
+
+                    <div class="department-image-empty">
+                        등록된 진료과 사진이 없습니다.
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         2. 의료진
+         ========================================================= -->
+
+    <section
+        id="doctors"
+        class="department-tab-content"
+    >
+
+        <div class="department-doctors-title">
+
+            <h2>
+                {{ department.dept_name }} 의료진
+            </h2>
+
+        </div>
+
+
+
+        {% if doctors %}
+
+
+            <div class="department-doctor-list">
+
+
+                {% for doctor in doctors %}
+
+
+                    <div class="department-doctor-card">
+
+
+                        <!-- =====================================
+                             실제 의료진 사진
+                             ===================================== -->
+
+                        <div class="department-doctor-photo">
+
+
+                            {% if doctor.photo %}
+
+                                <img
+                                    src="{{ url_for(
+                                        'static',
+                                        filename=doctor.photo
+                                    ) }}"
+                                    alt="{{ doctor.doctor_name }}"
+                                >
+
+
+                            {% else %}
+
+                                <div class="doctor-photo-empty">
+
+                                    사진 없음
+
+                                </div>
+
+                            {% endif %}
+
+
+                        </div>
+
+
+
+                        <!-- =====================================
+                             의료진 정보
+                             ===================================== -->
+
+                        <div class="department-doctor-info">
+
+
+                            <h3>
+                                {{ doctor.doctor_name }}
+                            </h3>
+
+
+                            <p>
+
+                                <strong>
+                                    진료과
+                                </strong>
+
+                                <br>
+
+                                {{ department.dept_name }}
+
+                            </p>
+
+
+                            <p>
+
+                                <strong>
+                                    전문분야
+                                </strong>
+
+                                <br>
+
+                                {{ doctor.specialty
+                                   or '정보 없음' }}
+
+                            </p>
+
+
+                            {% if doctor.profile %}
+
+                                <p>
+
+                                    <strong>
+                                        약력
+                                    </strong>
+
+                                    <br>
+
+                                    {{ doctor.profile }}
+
+                                </p>
+
+                            {% endif %}
+
+
+                            <p>
+
+                                <strong>
+                                    진료시간
+                                </strong>
+
+                                <br>
+
+                                {{ doctor.work_hours
+                                   or '정보 없음' }}
+
+                            </p>
+
+
+
+                            <!-- =================================
+                                 예약하기
+
+                                 클릭하면 과 + 의료진 자동 선택
+                                 ================================= -->
+
+                            <a
+                                href="{{ url_for(
+                                    'reservation.reservation',
+                                    dept_id=doctor.dept_id,
+                                    doctor_id=doctor.doctor_id
+                                ) }}"
+                                class="doctor-reservation-button"
+                            >
+                                예약하기
+                            </a>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                {% endfor %}
+
+
+            </div>
+
+
+        {% else %}
+
+
+            <p class="department-empty-message">
+                등록된 의료진이 없습니다.
+            </p>
+
+
+        {% endif %}
+
+    </section>
+
+
+
+    <!-- =========================================================
+         3. 진료시간표
+         ========================================================= -->
+
+    <section
+        id="schedule"
+        class="department-tab-content"
+    >
+
+        <div class="department-schedule-title">
+
+            <h2>
+                진료시간표
+            </h2>
+
+        </div>
+
+
+
+        {% if doctors %}
+
+
+            <div class="schedule-table-wrap">
+
+                <table class="schedule-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                의료진
+                            </th>
+
+                            <th>
+                                전문분야
+                            </th>
+
+                            <th>
+                                진료시간
+                            </th>
+
+                            <th>
+                                예약
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        {% for doctor in doctors %}
+
+                            <tr>
+
+                                <td>
+                                    {{ doctor.doctor_name }}
+                                </td>
+
+
+                                <td>
+                                    {{ doctor.specialty
+                                       or '-' }}
+                                </td>
+
+
+                                <td>
+                                    {{ doctor.work_hours
+                                       or '정보 없음' }}
+                                </td>
+
+
+                                <td>
+
+                                    <a
+                                        href="{{ url_for(
+                                            'reservation.reservation',
+                                            dept_id=doctor.dept_id,
+                                            doctor_id=doctor.doctor_id
+                                        ) }}"
+                                        class="schedule-reservation-button"
+                                    >
+                                        예약하기
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+        {% else %}
+
+
+            <p class="department-empty-message">
+                등록된 진료시간 정보가 없습니다.
+            </p>
+
+
+        {% endif %}
+
+    </section>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     상세페이지 TAB JavaScript
+     ========================================================= -->
+
+<script
+    src="{{ url_for(
+        'static',
+        filename='js/department_detail.js'
+    ) }}"
+></script>
+
+
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "admin_base.html" %}
+{% block title %}진료과 관리{% endblock %}
+
+{% block content %}
+<h2>진료과 관리</h2>
+
+<div class="dept-list-toolbar">
+    <a href="{{ url_for('admin.admin_department_create') }}">
+        <button type="button">+ 진료과 등록</button>
+    </a>
+
+    <form method="get" action="{{ url_for('admin.admin_department') }}" class="dept-search-form">
+        <input type="text" name="q" value="{{ keyword or '' }}" placeholder="진료과명 또는 소개 검색">
+        <button type="submit">검색</button>
+        {% if keyword %}
+            <a href="{{ url_for('admin.admin_department') }}">전체보기</a>
+        {% endif %}
+    </form>
+</div>
+
+{% if keyword %}
+    <p>"{{ keyword }}" 검색 결과: {{ departments|length }}건</p>
+{% endif %}
+
+<p>진료과명을 클릭하면 상세 내용을 확인하고 수정/삭제할 수 있습니다.</p>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th style="width:60px;">순서</th>
+            <th>진료과명</th>
+            <th>소개</th>
+            <th style="width:90px;">노출 상태</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for dept in departments %}
+        <tr>
+            <td>{{ dept.display_order }}</td>
+            <td>
+                <a href="{{ url_for('admin.admin_department_detail', dept_id=dept.dept_id) }}">{{ dept.dept_name }}</a>
+            </td>
+            <td class="dept-desc-cell">{{ dept.dept_description or '' }}</td>
+            <td>
+                {% if dept.is_active %}
+                    <span class="dept-badge dept-badge-active">노출</span>
+                {% else %}
+                    <span class="dept-badge dept-badge-inactive">숨김</span>
+                {% endif %}
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="4">
+                {% if keyword %}
+                    "{{ keyword }}"에 해당하는 진료과가 없습니다.
+                {% else %}
+                    등록된 진료과가 없습니다.
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

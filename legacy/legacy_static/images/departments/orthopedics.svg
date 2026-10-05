@@ -1,0 +1,12 @@
+<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="80" cy="80" r="70" fill="#eaf3fb"/>
+  <circle cx="80" cy="80" r="70" fill="none" stroke="#0b6fb8" stroke-width="3"/>
+  <g transform="translate(80 66) rotate(-40)">
+    <rect x="-28" y="-7" width="56" height="14" rx="7" fill="#0b6fb8"/>
+    <circle cx="-28" cy="-7" r="9" fill="#0b6fb8"/>
+    <circle cx="-28" cy="7" r="9" fill="#0b6fb8"/>
+    <circle cx="28" cy="-7" r="9" fill="#0b6fb8"/>
+    <circle cx="28" cy="7" r="9" fill="#0b6fb8"/>
+  </g>
+  <text x="80" y="132" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#0b4f8a" text-anchor="middle">정형외과</text>
+</svg>

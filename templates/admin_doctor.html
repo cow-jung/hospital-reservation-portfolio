@@ -1,0 +1,59 @@
+{% extends "admin_base.html" %}
+{% block title %}의료진 관리{% endblock %}
+
+{% block content %}
+<h2>의료진 관리</h2>
+
+<p>
+    <a href="{{ url_for('admin.admin_doctor_create') }}">
+        <button type="button">+ 의료진 등록</button>
+    </a>
+</p>
+
+<form method="get" action="{{ url_for('admin.admin_doctor') }}">
+    <input type="text" name="q" value="{{ keyword or '' }}" placeholder="의료진명 또는 전문분야 검색">
+    <button type="submit">검색</button>
+    {% if keyword %}
+        <a href="{{ url_for('admin.admin_doctor') }}">전체보기</a>
+    {% endif %}
+</form>
+
+{% if keyword %}
+    <p>"{{ keyword }}" 검색 결과: {{ doctors|length }}건</p>
+{% endif %}
+
+<p>의료진명을 클릭하면 상세 내용을 확인하고 수정/삭제할 수 있습니다.</p>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>의료진명</th>
+            <th>소속 진료과</th>
+            <th>전문분야</th>
+            <th>진료시간</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for doc in doctors %}
+        <tr>
+            <td>
+                <a href="{{ url_for('admin.admin_doctor_detail', doctor_id=doc.doctor_id) }}">{{ doc.doctor_name }}</a>
+            </td>
+            <td>{{ doc.dept_name }}</td>
+            <td>{{ doc.specialty or '' }}</td>
+            <td>{{ doc.work_hours or '' }}</td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="4">
+                {% if keyword %}
+                    "{{ keyword }}"에 해당하는 의료진이 없습니다.
+                {% else %}
+                    등록된 의료진이 없습니다.
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

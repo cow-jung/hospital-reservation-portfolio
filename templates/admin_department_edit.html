@@ -1,0 +1,64 @@
+{% extends "admin_base.html" %}
+{% block title %}{{ dept.dept_name }} 수정{% endblock %}
+
+{% block content %}
+<h2>진료과 수정 - {{ dept.dept_name }}</h2>
+
+<p><a href="{{ url_for('admin.admin_department_detail', dept_id=dept.dept_id) }}">&larr; 상세로 돌아가기</a></p>
+
+<form method="post" action="{{ url_for('admin.admin_department_edit', dept_id=dept.dept_id) }}" enctype="multipart/form-data">
+    <div>
+        <label for="dept_name">진료과명</label>
+        <input type="text" id="dept_name" name="dept_name" value="{{ dept.dept_name }}" required>
+    </div>
+    <br>
+
+    <div>
+        <label for="dept_description">진료과 소개</label><br>
+        <textarea id="dept_description" name="dept_description" rows="4" cols="60">{{ dept.dept_description or '' }}</textarea>
+    </div>
+    <br>
+
+    <div>
+        <label>현재 이미지</label><br>
+        <img id="dept-image-preview" src="{% if dept.dept_image %}{{ url_for('static', filename=dept.dept_image) }}{% endif %}"
+             alt="{{ dept.dept_name }}"
+             style="width:120px; height:120px; object-fit:contain; border:1px solid #dfe3e8; border-radius:6px; padding:6px; background:#fff; {% if not dept.dept_image %}display:none;{% endif %}"
+             onerror="this.style.display='none';">
+        <span id="dept-image-empty" style="color:#999; {% if dept.dept_image %}display:none;{% endif %}">등록된 이미지 없음</span>
+    </div>
+    <br>
+
+    <div>
+        <label for="dept_image_file">이미지 교체</label>
+        <input type="file" id="dept_image_file" name="dept_image_file" accept="image/*">
+        <p style="font-size:12px; color:#888; margin:4px 0 0 0;">비워두면 기존 이미지가 그대로 유지됩니다. (선택 시 아래 미리보기가 바로 바뀝니다)</p>
+    </div>
+    <br>
+
+    <div>
+        <label for="dept_image">또는 이미지 경로 직접 입력</label>
+        <input type="text" id="dept_image" name="dept_image" value="{{ dept.dept_image or '' }}"
+               placeholder="예: images/departments/internal.svg">
+    </div>
+    <br>
+
+    <div>
+        <label for="display_order">표시 순서</label>
+        <input type="text" id="display_order" name="display_order" value="{{ dept.display_order }}">
+    </div>
+    <br>
+
+    <div>
+        <label for="is_active">사용자 화면 노출</label>
+        <input type="checkbox" id="is_active" name="is_active" {% if dept.is_active %}checked{% endif %}>
+    </div>
+    <br>
+
+    <button type="submit">수정 저장</button>
+</form>
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/admin_department_edit.js') }}"></script>
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,103 @@
+/* -----------------------------------
+   1. 표(Table) 기본 레이아웃 스타일
+----------------------------------- */
+table {
+    width: 100%;                  /* 표의 가로 길이를 화면에 꽉 채웁니다 (두 번째 사진의 핵심!) */
+    border-collapse: collapse;    /* 표의 두 줄짜리 테두리를 한 줄로 깔끔하게 합칩니다 */
+    margin-bottom: 20px;          /* 표 아래쪽에 약간의 여백을 줍니다 */
+}
+
+/* 표의 제목칸(th)과 내용칸(td) 공통 스타일 */
+th, td {
+    border: 1px solid #000;       /* 검은색 실선 테두리 */
+    padding: 10px;                /* 글자와 테두리 사이의 안쪽 여백 */
+    text-align: left;             /* 글자를 왼쪽으로 정렬 */
+}
+
+/* 표의 제목칸(th) 전용 스타일 */
+th {
+    width: 20%;                   /* 제목 칸의 너비를 전체의 20%로 고정 */
+    background-color: #f4f4f4;    /* 옅은 회색 배경 */
+    text-align: center;           /* 제목 칸만 글자를 가운데 정렬 */
+}
+
+/* 본문 내용이 들어가는 아주 큰 칸에 대한 스타일 (필요시 HTML에 class 추가) */
+.content-cell {
+    padding: 20px;
+    height: 200px;
+    vertical-align: top;          /* 글자가 칸의 위쪽부터 시작되도록 설정 */
+}
+
+/* -----------------------------------
+   2. 댓글 및 기타 스타일
+----------------------------------- */
+/* 댓글 목록 뼈대 지우기 */
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+/* 댓글 하나하나의 스타일 */
+li {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+/* 오른쪽 정렬을 위한 클래스 (삭제 버튼 영역 등) */
+.right-align {
+    text-align: right;
+    margin-top: 10px;
+}
+
+/* 가운데 정렬을 위한 클래스 (목록으로 버튼 영역 등) */
+.center-align {
+    text-align: center;
+}
+
+/* 댓글 삭제 폼을 옆으로 나란히 배치 */
+.delete-comment-form {
+    display: inline-block;  /* 줄바꿈을 막고 같은 줄에 배치하는 핵심 속성 */
+    margin-left: 10px;      /* 작성일시와 버튼 사이의 간격 */
+}
+
+/* 임시 삭제 버튼 디자인 */
+.btn-delete {
+    font-size: 0.8em;
+    color: red;
+    background: none;
+    border: 1px solid red;
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 2px 5px;
+}
+
+/* -----------------------------------
+   3. 게시판 목록 표 전용 열 너비 설정
+----------------------------------- */
+/* .board-list-table 안의 th(제목칸) 순서대로 너비를 다르게 줍니다 */
+.board-list-table th:nth-child(1) { width: 10%; } /* 번호 */
+.board-list-table th:nth-child(2) { width: 50%; } /* 제목 (가장 넓게!) */
+.board-list-table th:nth-child(3) { width: 15%; } /* 작성자 */
+.board-list-table th:nth-child(4) { width: 10%; } /* 조회수 */
+.board-list-table th:nth-child(5) { width: 15%; } /* 작성일 */
+
+/* 제목 칸의 내용(td)을 왼쪽으로 정렬하려면 아래 코드를 씁니다 */
+.board-list-table td:nth-child(2) {
+    text-align: left;
+    padding-left: 15px; /* 왼쪽 여백을 살짝 주어 보기 좋게 만듭니다 */
+}
+
+/* -----------------------------------
+   4. 공지사항 목록 표 전용 열 너비 설정 (총 4칸)
+----------------------------------- */
+.notice-list-table th:nth-child(1) { width: 10%; } /* 번호 */
+.notice-list-table th:nth-child(2) { width: 60%; } /* 제목 (가장 넓게!) */
+.notice-list-table th:nth-child(3) { width: 10%; } /* 조회수 */
+.notice-list-table th:nth-child(4) { width: 20%; } /* 등록일 */
+
+/* 공지사항 제목 칸의 내용(td)을 왼쪽으로 정렬합니다 */
+.notice-list-table td:nth-child(2) {
+    text-align: left;
+    padding-left: 15px;
+}
